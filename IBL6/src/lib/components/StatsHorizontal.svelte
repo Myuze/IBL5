@@ -1,9 +1,13 @@
 <script lang="ts">
-    export let headers: string[] = [];
-    export let sortColumn: string = '';
-    export let sortDirection: 'asc' | 'desc' = 'asc';
+    interface Props {
+        headers: string[];
+        sortColumn: string;
+        sortDirection: 'asc' | 'desc';
+        onSort: (column: string, direction: 'asc' | 'desc') => void;
+    }
 
-    // ✅ Map header display names to actual property names
+    let { headers, sortColumn, sortDirection, onSort }: Props = $props();
+
     const columnMap: Record<string, string> = {
         'Pos': 'pos',
         'Name': 'name', 
@@ -23,35 +27,31 @@
         'tov': 'tov',
         'pf': 'pf'
     };
-        // ✅ Get sort icon for column header
+
     function getSortIcon(header: string): string {
         const column = columnMap[header] || header;
-        if (sortColumn !== column) return '↕️'; // Unsorted
+        if (sortColumn !== column) return '⇅';
         return sortDirection === 'asc' ? '↑' : '↓';
     }
 
-    // ✅ Check if column is currently being sorted
     function isActiveSortColumn(header: string): boolean {
         const column = columnMap[header] || header;
-        return sortColumn === column;
+        const isActive = sortColumn === column;
+        return isActive;
     }
 
-    // ✅ Handle column header clicks for sorting
     function handleSort(header: string) {
         const column = columnMap[header] || header;
         
+        let newDirection: 'asc' | 'desc';
         if (sortColumn === column) {
-            // Same column - toggle direction
-            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
-            // New column - set default direction based on column type
-            sortColumn = column;
-            // Most stats should default to descending (highest first)
-            // Name and position should default to ascending (alphabetical)
-            sortDirection = ['name', 'pos'].includes(column) ? 'asc' : 'desc';
+            newDirection = ['name', 'pos'].includes(column) ? 'asc' : 'desc';
         }
         
-        console.log(`Sorting by ${column} ${sortDirection}`);
+        // Call the parent's callback
+        onSort(column, newDirection);
     }
 </script>
 
@@ -59,8 +59,9 @@
     {#each headers as header, index}
         <th 
             class="cursor-pointer select-none hover:bg-base-200 transition-colors px-2 py-3 min-w-10 text-center
-                    {isActiveSortColumn(header) ? 'bg-primary/20 text-primary font-bold' : ''}
-                    {header === 'Name' ? 'sticky opacity-100 left-0 z-30 bg-base-100 border-r border-base-300 shadow-lg min-w-32' : ''}"
+                   {isActiveSortColumn(header) ? 'bg-primary/20 text-primary font-bold' : ''}
+                   {header === 'Name' ? 'sticky opacity-100 left-0 z-30 border-r border-base-300 shadow-lg min-w-32' : ''}
+                   {header === 'Name' && !isActiveSortColumn(header) ? 'bg-base-100' : ''}"
             onclick={() => handleSort(header)}
             title="Click to sort by {header}"
         >
@@ -75,3 +76,10 @@
         </th>
     {/each}
 </tr>
+
+<style>
+    /* Ensure sticky behavior works with hover states */
+    tr:hover .sticky {
+        background-color: hsl(var(--b2)) !important;
+    }
+</style>

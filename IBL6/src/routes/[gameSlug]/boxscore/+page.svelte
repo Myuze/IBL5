@@ -32,8 +32,8 @@
     let selectedTeamName = $state('');
     
     // Sorting state
-    let sortColumn = $state<string>('min'); // Default sort by minutes
-    let sortDirection = $state<'asc' | 'desc'>('desc'); // Default descending (highest first)
+    let sortColumn = $state<string>('min');
+    let sortDirection = $state<'asc' | 'desc'>('desc');
 
     // Map header display names to actual property names
     const columnMap: Record<string, string> = {
@@ -93,7 +93,7 @@
         console.log('Selected team:', selectedTeamName);
         console.log('Players for this team:', filteredPlayers.length);
     }
-    
+   
     // Set initial team selection when component mounts
     onMount(() => {
         if (homeTeamName) {
@@ -101,17 +101,13 @@
         }
     });
 
-    // Log the data for debugging
-    $effect(() => {
-        if (game) {
-            console.log('🏀 Game loaded:', {
-                away: `${awayTeamName} (${awayTeamScore})`,
-                home: `${homeTeamName} (${homeTeamScore})`,
-                awayPlayers: awayPlayers.length,
-                homePlayers: homePlayers.length
-            });
-        }
-    });
+
+
+    // Add handlers for sort changes
+    function handleSortChange(column: string, direction: 'asc' | 'desc') {
+        sortColumn = column;
+        sortDirection = direction;
+    }
 </script>
 
 <!-- Show game data with real player stats -->
@@ -207,9 +203,16 @@
         </div>
         <div class="overflow-x-auto border border-base-300 rounded-lg shadow-sm">
             <table class="table table-zebra table-pin-rows table-xs min-w-full">
-                <thead>
-                    <StatsHorizontal {headers} bind:sortColumn bind:sortDirection />
-                </thead>
+                {#key `${sortColumn}-${sortDirection}`}
+                    <thead>
+                        <StatsHorizontal 
+                            {headers} 
+                            {sortColumn} 
+                            {sortDirection}
+                            onSort={handleSortChange}
+                        />
+                    </thead>
+                {/key}
                 <tbody>
                     {#each filteredPlayers as player, rowIndex (player.id || rowIndex)}
                         <tr class="hover:bg-base-200/50 transition-colors">
@@ -237,9 +240,16 @@
                         </tr>
                     {/each}
                 </tbody>
-                <tfoot>
-                    <StatsHorizontal {headers} bind:sortColumn bind:sortDirection />
-                </tfoot>
+                {#key `${sortColumn}-${sortDirection}`}
+                    <tfoot>
+                        <StatsHorizontal 
+                            {headers} 
+                            {sortColumn} 
+                            {sortDirection}
+                            onSort={handleSortChange}
+                        />
+                    </tfoot>
+                {/key}
             </table>
         </div>
     {/if}

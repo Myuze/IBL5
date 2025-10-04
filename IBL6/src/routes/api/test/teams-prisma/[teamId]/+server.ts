@@ -65,7 +65,6 @@ export const GET: RequestHandler = async ({ params }) => {
 			throw error(500, 'Database schema mismatch');
 		}
 
-		// Don't return response after throwing error
 		if (err.status) {
 			throw error(err.status, err.message);
 		}
