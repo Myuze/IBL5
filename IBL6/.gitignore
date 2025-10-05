@@ -9,6 +9,7 @@ node_modules
 .wrangler
 /.svelte-kit
 /build
+*.session.sql
 
 # OS
 .DS_Store
