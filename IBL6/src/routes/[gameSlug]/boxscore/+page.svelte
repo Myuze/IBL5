@@ -1,6 +1,8 @@
 <script lang='ts'>
     import type { PageData } from './$types';
     import { onMount } from 'svelte';
+    import GameSummary from '$lib/components/GameSummary.svelte';
+    import type { GameSummary as GameSummaryType } from '$lib/types/GameSummary';
     import PlayerCard from '$lib/components/PlayerCard.svelte';
     import SlideButtonSelector from '$lib/components/SlideButtonSelector.svelte';
     import StatsHorizontal from '$lib/components/StatsHorizontal.svelte';
@@ -27,7 +29,7 @@
     
     const homeTeamColor = $derived(homeTeam?.color1 ? `#${homeTeam.color1}` : '#3B82F6');
     const awayTeamColor = $derived(awayTeam?.color1 ? `#${awayTeam.color1}` : '#EF4444');
-    
+
     // Selected team state
     let selectedTeamName = $state('');
     
@@ -55,6 +57,15 @@
         'tov': 'tov',
         'pf': 'pf'
     };
+
+    let gameSummary: GameSummaryType = $derived({
+        homeTeamName: homeTeamName,
+        homeTeamLogoUrl: homeTeam?.teamid ? `/teamlogo/new${homeTeam.teamid}.png` : 'https://placecats.com/50/50',
+        awayTeamName: awayTeamName,
+        awayTeamLogoUrl: awayTeam?.teamid ? `/teamlogo/new${awayTeam.teamid}.png` : 'https://placecats.com/50/50',
+        homeQuarterScores: game?.homeQuarterScores || [0, 0, 0, 0],
+        awayQuarterScores: game?.awayQuarterScores || [0, 0, 0, 0]
+    });
 
     // Filter and sort players based on selected team and sort criteria
     const filteredPlayers = $derived.by(() => {
@@ -93,6 +104,12 @@
         console.log('Selected team:', selectedTeamName);
         console.log('Players for this team:', filteredPlayers.length);
     }
+
+    // Add handlers for sort changes
+    function handleSortChange(column: string, direction: 'asc' | 'desc') {
+        sortColumn = column;
+        sortDirection = direction;
+    }
    
     // Set initial team selection when component mounts
     onMount(() => {
@@ -100,14 +117,6 @@
             selectedTeamName = homeTeamName;
         }
     });
-
-
-
-    // Add handlers for sort changes
-    function handleSortChange(column: string, direction: 'asc' | 'desc') {
-        sortColumn = column;
-        sortDirection = direction;
-    }
 </script>
 
 <!-- Show game data with real player stats -->
@@ -168,6 +177,11 @@
         </div>
     </div>
 
+    <!-- Game Summary -->
+    <div class="p-4">
+        <GameSummary summary={gameSummary} />
+    </div>
+
     <!-- Team Selector -->
     <div class="flex justify-center p-4">
         <SlideButtonSelector 
@@ -215,9 +229,9 @@
                 {/key}
                 <tbody>
                     {#each filteredPlayers as player, rowIndex (player.id || rowIndex)}
-                        <tr class="hover:bg-base-200/50 transition-colors">
+                        <tr class="group hover:bg-base-200/50 transition-colors">
                             <td class="px-2 py-1 text-center text-xs font-medium">{player.pos}</td>
-                            <td class="sticky left-0 z-20 bg-base-100 font-medium px-3 py-1 border-r border-base-300 shadow-lg min-w-32 max-w-32">
+                            <td class="sticky left-0 z-20 bg-base-100 group-hover:bg-base-200 font-medium px-3 py-1 border-r border-base-300 shadow-lg min-w-32 max-w-32">
                                 <div class="truncate text-sm">
                                     {player.name}
                                 </div>
@@ -254,10 +268,3 @@
         </div>
     {/if}
 {/if}
-
-<style>
-    /* Ensure sticky behavior works with hover states */
-    tr:hover .sticky {
-        background-color: hsl(var(--b2)) !important;
-    }
-</style>

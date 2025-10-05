@@ -23,6 +23,16 @@ export const load: PageServerLoad = async ({ params }) => {
                 game.visitorTeamID as awayTeamId,
                 game.homeTeamID as homeTeamId,
                 game.gameOfThatDay,
+                game.visitorQ1points,
+                game.visitorQ2points,
+                game.visitorQ3points,
+                game.visitorQ4points,
+                game.visitorOTpoints,
+                game.homeQ1points,
+                game.homeQ2points,
+                game.homeQ3points,
+                game.homeQ4points,
+                game.homeOTpoints,
                 (game.visitorQ1points + game.visitorQ2points + game.visitorQ3points + game.visitorQ4points + COALESCE(game.visitorOTpoints, 0)) as awayScore,
                 (game.homeQ1points + game.homeQ2points + game.homeQ3points + game.homeQ4points + COALESCE(game.homeOTpoints, 0)) as homeScore,
                 away.teamid as away_teamid,
@@ -125,6 +135,20 @@ export const load: PageServerLoad = async ({ params }) => {
 			homeScore: Number(gameData.homeScore) || 0,
 			awayTeamId: gameData.awayTeamId,
 			homeTeamId: gameData.homeTeamId,
+			homeQuarterScores: [
+				Number(gameData.homeQ1points) || 0,
+				Number(gameData.homeQ2points) || 0,
+				Number(gameData.homeQ3points) || 0,
+				Number(gameData.homeQ4points) || 0,
+				...(gameData.homeOTpoints ? [Number(gameData.homeOTpoints) || 0] : [])
+			],
+			awayQuarterScores: [
+				Number(gameData.visitorQ1points) || 0,
+				Number(gameData.visitorQ2points) || 0,
+				Number(gameData.visitorQ3points) || 0,
+				Number(gameData.visitorQ4points) || 0,
+				...(gameData.visitorOTpoints ? [Number(gameData.visitorOTpoints) || 0] : [])
+			],
 			awayTeam: gameData.away_teamid
 				? {
 						teamid: gameData.away_teamid,
@@ -172,6 +196,13 @@ export const load: PageServerLoad = async ({ params }) => {
 			}));
 		};
 
+		console.log('Serialized game data:', serializePrismaData(formattedGame));
+		console.log('🎯 Returning game data:', {
+			visitorQ1points: gameData.visitorQ1points,
+			visitorQ2points: gameData.visitorQ2points,
+			homeQ1points: gameData.homeQ1points,
+			homeQ2points: gameData.homeQ2points
+		});
 		return {
 			game: serializePrismaData(formattedGame),
 			awayPlayers: serializePrismaData(formatPlayers(awayPlayers)),
