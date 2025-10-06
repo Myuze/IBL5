@@ -1,50 +1,50 @@
 <script lang="ts">
-    import type { TeamSummary as TeamSummaryType } from '$lib/types/TeamSummary';
+    import type { GameSummary as GameSummaryType } from '$lib/types/GameSummary';
     
     interface Props {
-        summary: TeamSummaryType;
+        summary: GameSummaryType;
     }
     
     let { summary }: Props = $props();
     
     const homeTotal = $derived(summary.homeQuarterScores.reduce((total, score) => total + score, 0));
     const awayTotal = $derived(summary.awayQuarterScores.reduce((total, score) => total + score, 0));
-
-    $effect(() => {
-        console.log('📊 TeamSummary received:', summary);
-        console.log('Home Total:', homeTotal);
-        console.log('Away Total:', awayTotal);
-    });
+    const hasOT = $derived(summary.homeQuarterScores.length > 4);
+    const numColumns = $derived(summary.homeQuarterScores.length + 2); // quarters + logo + final
 </script>
 
 <div id='team-summary-container' class="flex-col sm:text-xs text-center mb-6 bg-base-100 shadow-md">
     <h1 id='team-summary-title' class="text-lg font-semibold pb-2">Game Summary</h1>
     <div class="text-2xl font-bold mb-4 rounded-2xl bg-base-200 shadow-md">
-        <div class="grid grid-cols-6 grid-rows-[1fr_2fr] gap-2 place-items-center">
-            <!-- Quarter headers -->
-            <div id="header-q1" class="font-semibold text-sm md:text-xl col-start-2 row-start-1">1</div>
-            <div id="header-q2" class="font-semibold text-sm md:text-xl col-start-3 row-start-1">2</div>
-            <div id="header-q3" class="font-semibold text-sm md:text-xl col-start-4 row-start-1">3</div>
-            <div id="header-q4" class="font-semibold text-sm md:text-xl col-start-5 row-start-1">4</div>
-            <div id="header-final" class="font-semibold text-sm md:text-xl col-start-6 row-start-1">Final</div>
+        <div class="grid gap-2 place-items-center" style="grid-template-columns: repeat({numColumns}, minmax(0, 1fr)); grid-template-rows: 1fr 2fr 2fr;">
+            <!-- Quarter headers - start from column 2 -->
+            <div></div> <!-- Empty first column for team logos -->
+            {#each summary.homeQuarterScores as _, index}
+                {#if index < 4}
+                    <div id="header-q{index + 1}" class="font-semibold text-sm md:text-xl">Q{index + 1}</div>
+                {:else}
+                    <div id="header-ot{index - 3}" class="font-semibold text-sm md:text-xl">OT{index > 4 ? index - 3 : ''}</div>
+                {/if}
+            {/each}
+            <div id="header-final" class="font-semibold text-sm md:text-xl">Final</div>
             
             <!-- Home team -->
-            <div id="home-team" class="text-sm md:text-2xl row-start-2">
+            <div id="home-team" class="text-sm md:text-2xl">
                 <img src="{summary.homeTeamLogoUrl}" alt="{summary.homeTeamName}" />
             </div>
             {#each summary.homeQuarterScores as score}
-                <div class="text-sm md:text-2xl row-start-2">{score}</div>
+                <div class="text-sm md:text-2xl">{score}</div>
             {/each}
-            <div id="home-team-final" class="font-bold md:text-5xl row-start-2">{homeTotal}</div>
+            <div id="home-team-final" class="font-bold text-xl md:text-3xl">{homeTotal}</div>
             
             <!-- Away team -->
-            <div id="away-team" class="text-sm row-start-3">
+            <div id="away-team" class="text-sm md:text-2xl">
                 <img src="{summary.awayTeamLogoUrl}" alt="{summary.awayTeamName}" />
             </div>
             {#each summary.awayQuarterScores as score}
-                <div class="text-sm md:text-2xl row-start-3">{score}</div>
+                <div class="text-sm md:text-2xl">{score}</div>
             {/each}
-            <div id="away-team-final" class="font-bold md:text-5xl row-start-3">{awayTotal}</div>
+            <div id="away-team-final" class="font-bold text-xl md:text-3xl">{awayTotal}</div>
         </div>
     </div>
 </div>
