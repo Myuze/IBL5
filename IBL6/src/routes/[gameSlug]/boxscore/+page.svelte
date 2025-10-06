@@ -34,7 +34,7 @@
     let selectedTeamName = $state('');
     
     // Sorting state
-    let sortColumn = $state<string>('min');
+    let sortColumn = $state<string>('pts');
     let sortDirection = $state<'asc' | 'desc'>('desc');
 
     // Map header display names to actual property names
@@ -129,49 +129,64 @@
     </div>
 {:else}
     <!-- Game header -->
-    <div class="bg-gradient-to-r text-white p-6 rounded-lg shadow-lg mb-6"
-         style="background: linear-gradient(to right, {awayTeamColor}aa, {homeTeamColor}aa)">
-        <div class="flex justify-around items-center">
-            <!-- Away Team -->
-            <div class="flex items-center space-x-4">
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-2">
-                        {#if awayTeam?.teamid}
-                            <img src={`/teamlogo/new${awayTeam.teamid}.png`} alt="{awayTeamName} Logo" class="w-12 h-12 object-contain" />
-                        {:else}
-                            <span class="text-2xl font-bold text-gray-800">{awayTeam?.name?.[0] || 'A'}</span>
-                        {/if}
+    <div class="relative overflow-hidden rounded-lg shadow-lg mb-6 text-white">
+        <!-- Background gradient -->
+        <div class="absolute inset-0" 
+             style="background: 
+                    radial-gradient(circle at top left, {awayTeam?.color1 ? `#${awayTeam.color1}` : '#EF4444'} 10%, transparent 75%),
+                    radial-gradient(circle at bottom left, {awayTeam?.color2 ? `#${awayTeam.color2}` : '#DC2626'} 25%, transparent 50%),
+                    radial-gradient(circle at top right, {homeTeam?.color1 ? `#${homeTeam.color1}` : '#3B82F6'} 10%, transparent 75%),
+                    radial-gradient(circle at bottom right, {homeTeam?.color2 ? `#${homeTeam.color2}` : '#2563EB'} 25%, transparent 50%),
+                    linear-gradient(135deg, 
+                        {awayTeam?.color1 ? `#${awayTeam.color1}` : '#EF4444'} 0%,
+                        {awayTeam?.color2 ? `#${awayTeam.color2}` : '#DC2626'} 35%,
+                        {homeTeam?.color1 ? `#${homeTeam.color1}` : '#3B82F6'} 65%,
+                        {homeTeam?.color2 ? `#${homeTeam.color2}` : '#2563EB'} 100%)">
+        </div>
+
+        <div class="relative z-10 p-6">
+            <div class="flex justify-around items-center">
+                <!-- Away Team -->
+                <div class="flex items-center space-x-4">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-2">
+                            {#if awayTeam?.teamid}
+                                <img src={`/teamlogo/new${awayTeam.teamid}.png`} alt="{awayTeamName} Logo" class="w-12 h-12 object-contain" />
+                            {:else}
+                                <span class="text-2xl font-bold text-gray-800">{awayTeam?.name?.[0] || 'A'}</span>
+                            {/if}
+                        </div>
+                        <div class="text-sm opacity-90">{awayTeamName}</div>
+                        <div class="text-xs opacity-70">{awayPlayers.length} players</div>
                     </div>
-                    <div class="text-sm opacity-90">{awayTeamName}</div>
-                    <div class="text-xs opacity-70">{awayPlayers.length} players</div>
+                    <div class="text-4xl font-bold">{awayTeamScore}</div>
                 </div>
-                <div class="text-4xl font-bold">{awayTeamScore}</div>
-            </div>
-            
-            <!-- VS and Game Info -->
-            <div class="text-center">
-                <div class="text-sm opacity-75 mb-1">
-                    {new Date(game.date).toLocaleDateString()}
-                </div>
-                <div class="text-2xl font-bold">VS</div>
-                <div class="text-sm opacity-75 mt-1">
-                    Game {game.gameOfThatDay}
-                </div>
-            </div>
-            
-            <!-- Home Team -->
-            <div class="flex items-center space-x-4">
-                <div class="text-4xl font-bold">{homeTeamScore}</div>
+                
+                <!-- VS and Game Info -->
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-2">
-                        {#if homeTeam?.teamid}
-                            <img src={`/teamlogo/new${homeTeam.teamid}.png`} alt="{homeTeamName} Logo" class="w-12 h-12 object-contain" />
-                        {:else}
-                            <span class="text-2xl font-bold text-gray-800">{homeTeam?.name?.[0] || 'H'}</span>
-                        {/if}
+                    <div class="text-sm opacity-75 mb-1">
+                        {new Date(game.date).toLocaleDateString()}
                     </div>
-                    <div class="text-sm opacity-90">{homeTeamName}</div>
-                    <div class="text-xs opacity-70">{homePlayers.length} players</div>
+                    <div class="text-2xl font-bold">VS</div>
+                    <div class="text-sm opacity-75 mt-1">
+                        Game {game.gameOfThatDay}
+                    </div>
+                </div>
+                
+                <!-- Home Team -->
+                <div class="flex items-center space-x-4">
+                    <div class="text-4xl font-bold">{homeTeamScore}</div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-2">
+                            {#if homeTeam?.teamid}
+                                <img src={`/teamlogo/new${homeTeam.teamid}.png`} alt="{homeTeamName} Logo" class="w-12 h-12 object-contain" />
+                            {:else}
+                                <span class="text-2xl font-bold text-gray-800">{homeTeam?.name?.[0] || 'H'}</span>
+                            {/if}
+                        </div>
+                        <div class="text-sm opacity-90">{homeTeamName}</div>
+                        <div class="text-xs opacity-70">{homePlayers.length} players</div>
+                    </div>
                 </div>
             </div>
         </div>
