@@ -8,8 +8,8 @@
     import StatsHorizontal from '$lib/components/StatsHorizontal.svelte';
 
     const headers = [
-        'Pos', 'Name', 'min', 'fgm', 'fga', 'ftm', 'fta', 
-        '3pm', '3pa', 'pts', 'orb', 'reb', 'ast', 'stl', 'blk', 'tov', 'pf'
+        'Pos', 'Name', 'pts', 'min', 'fgm', 'fga', 'ftm', 'fta', 
+        '3pm', '3pa', 'orb', 'reb', 'ast', 'stl', 'blk', 'tov', 'pf'
     ];
 
     let { data }: { data: PageData } = $props();
@@ -41,6 +41,7 @@
     const columnMap: Record<string, string> = {
         'Pos': 'pos',
         'Name': 'name', 
+        'pts': 'pts',
         'min': 'min',
         'fgm': 'fgm',
         'fga': 'fga', 
@@ -48,7 +49,6 @@
         'fta': 'fta',
         '3pm': '3pm',
         '3pa': '3pa',
-        'pts': 'pts',
         'orb': 'orb',
         'reb': 'reb',
         'ast': 'ast',
@@ -236,6 +236,7 @@
                                     {player.name}
                                 </div>
                             </td>
+                            <td class="px-2 py-1 text-center text-sm font-bold text-primary">{player.pts}</td>
                             <td class="px-2 py-1 text-center text-sm">{player.min}</td>
                             <td class="px-2 py-1 text-center text-sm">{player.fgm}</td>
                             <td class="px-2 py-1 text-center text-sm">{player.fga}</td>
@@ -243,7 +244,6 @@
                             <td class="px-2 py-1 text-center text-sm">{player.fta}</td>
                             <td class="px-2 py-1 text-center text-sm">{player['3pm']}</td>
                             <td class="px-2 py-1 text-center text-sm">{player['3pa']}</td>
-                            <td class="px-2 py-1 text-center text-sm font-bold text-primary">{player.pts}</td>
                             <td class="px-2 py-1 text-center text-sm">{player.orb}</td>
                             <td class="px-2 py-1 text-center text-sm">{player.reb}</td>
                             <td class="px-2 py-1 text-center text-sm">{player.ast}</td>

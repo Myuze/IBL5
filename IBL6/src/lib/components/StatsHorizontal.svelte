@@ -11,6 +11,7 @@
     const columnMap: Record<string, string> = {
         'Pos': 'pos',
         'Name': 'name', 
+        'pts': 'pts',
         'min': 'min',
         'fgm': 'fgm',
         'fga': 'fga', 
@@ -18,7 +19,6 @@
         'fta': 'fta',
         '3pm': '3pm',
         '3pa': '3pa',
-        'pts': 'pts',
         'orb': 'orb',
         'reb': 'reb',
         'ast': 'ast',
@@ -76,10 +76,3 @@
         </th>
     {/each}
 </tr>
-
-<style>
-    /* Ensure sticky behavior works with hover states */
-    tr:hover .sticky {
-        background-color: hsl(var(--b2)) !important;
-    }
-</style>
