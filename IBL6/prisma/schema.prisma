@@ -33,8 +33,8 @@ model Team {
   chart          String  @default("") @map("chart") @db.Char(2)
 
   // Relations
-  homeGames BoxGame[] @relation("homeTeam")
-  awayGames BoxGame[] @relation("awayTeam")
+  homeGames       BoxGame[]   @relation("homeTeam")
+  awayGames       BoxGame[]   @relation("awayTeam")
   awayTeamPlayers BoxPlayer[] @relation("awayTeamPlayers")
   homeTeamPlayers BoxPlayer[] @relation("homeTeamPlayers")
 
@@ -66,9 +66,9 @@ model BoxPlayer {
   blk        Int?     @map("gameBLK")
   pf         Int?     @map("gamePF")
 
-  player IblPlayer @relation(fields: [pid], references: [pid])
-  awayTeam Team? @relation("awayTeamPlayers", fields: [awayTeamId], references: [teamid])
-  homeTeam Team? @relation("homeTeamPlayers", fields: [homeTeamId], references: [teamid])
+  player   IblPlayer @relation(fields: [pid], references: [pid])
+  awayTeam Team?     @relation("awayTeamPlayers", fields: [awayTeamId], references: [teamid])
+  homeTeam Team?     @relation("homeTeamPlayers", fields: [homeTeamId], references: [teamid])
 
   @@id([gameDate, pid])
   @@map("ibl_box_scores")
@@ -219,8 +219,8 @@ model IblPlayer {
   temp                 Int?    @default(0)
 
   // Relations
-  boxScores BoxPlayer[]
-  currentTeam Team? @relation("currentTeamPlayers", fields: [teamId], references: [teamid])
+  boxScores   BoxPlayer[]
+  currentTeam Team?       @relation("currentTeamPlayers", fields: [teamId], references: [teamid])
 
   @@index([name], map: "name")
   @@index([teamname], map: "teamname")
@@ -250,8 +250,8 @@ model BoxGame {
   homeQ4pts     Int?     @map("homeQ4points")
   homeOTpts     Int?     @map("homeOTpoints")
   min           Int?     @map("gameMIN")
-  fgm           Int?     @map("gameFGM")
-  fga           Int?     @map("gameFGA")
+  fgm           Int?     @map("game2GM")
+  fga           Int?     @map("game2GA")
   ftm           Int?     @map("gameFTM")
   fta           Int?     @map("gameFTA")
   tpm           Int?     @map("game3GM")
