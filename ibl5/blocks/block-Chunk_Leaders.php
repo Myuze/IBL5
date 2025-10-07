@@ -18,9 +18,9 @@ FROM (
         boxes.pid,
         players.teamname,
         players.tid,
-        CAST(FORMAT((2 * SUM(boxes.gameFGM) + SUM(boxes.gameFTM) + 3 * SUM(boxes.game3GM)) / COUNT(players.name), 1) AS DECIMAL(3,1)) AS stat_value,
+        CAST(FORMAT((2 * SUM(boxes.game2GM) + SUM(boxes.gameFTM) + 3 * SUM(boxes.game3GM)) / COUNT(players.name), 1) AS DECIMAL(3,1)) AS stat_value,
         'Points' AS stat_type,
-        ROW_NUMBER() OVER (ORDER BY (2 * SUM(boxes.gameFGM) + SUM(boxes.gameFTM) + 3 * SUM(boxes.game3GM)) / COUNT(players.name) DESC) AS rn
+        ROW_NUMBER() OVER (ORDER BY (2 * SUM(boxes.game2GM) + SUM(boxes.gameFTM) + 3 * SUM(boxes.game3GM)) / COUNT(players.name) DESC) AS rn
     FROM ibl_box_scores boxes
     INNER JOIN ibl_plr players USING(pid)
     WHERE boxes.Date BETWEEN '$lastSimStartDate' AND '$lastSimEndDate'

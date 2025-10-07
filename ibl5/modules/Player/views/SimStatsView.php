@@ -45,8 +45,8 @@ class SimStatsView extends BaseView {
 
             while ($row = $this->db->sql_fetch_assoc($resultPlayerSimBoxScores)) {
                 $simTotalMIN += $row['gameMIN'];
-                $simTotal2GM += $row['gameFGM'];
-                $simTotal2GA += $row['gameFGA'];
+                $simTotal2GM += $row['game2GM'];
+                $simTotal2GA += $row['game2GA'];
                 $simTotalFTM += $row['gameFTM'];
                 $simTotalFTA += $row['gameFTA'];
                 $simTotal3GM += $row['game3GM'];
@@ -58,7 +58,7 @@ class SimStatsView extends BaseView {
                 $simTotalTOV += $row['gameTOV'];
                 $simTotalBLK += $row['gameBLK'];
                 $simTotalPF += $row['gamePF'];
-                $simTotalPTS += (2 * $row['gameFGM']) + $row['gameFTM'] + (3 * $row['game3GM']);
+                $simTotalPTS += (2 * $row['game2GM']) + $row['gameFTM'] + (3 * $row['game3GM']);
             }
 
             $simAverageMIN = ($numberOfGamesPlayedInSim) ? $simTotalMIN / $numberOfGamesPlayedInSim : "0.0";

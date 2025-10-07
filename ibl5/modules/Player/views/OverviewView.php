@@ -123,7 +123,7 @@ class OverviewView extends BaseView {
         </style>";
 
         while ($row = $this->db->sql_fetch_assoc($result)) {
-            $fieldGoalPercentage = ($row['gameFGA'] + $row['game3GA']) ? number_format(($row['gameFGM'] + $row['game3GM']) / ($row['gameFGA'] + $row['game3GA']), 3, '.', '') : "0.000";
+            $fieldGoalPercentage = ($row['game2GA'] + $row['game3GA']) ? number_format(($row['game2GM'] + $row['game3GM']) / ($row['game2GA'] + $row['game3GA']), 3, '.', '') : "0.000";
             $freeThrowPercentage = ($row['gameFTA']) ? number_format($row['gameFTM'] / $row['gameFTA'], 3, '.', '') : "0.000";
             $threePointPercentage = ($row['game3GA']) ? number_format($row['game3GM'] / $row['game3GA'], 3, '.', '') : "0.000";
 
@@ -132,9 +132,9 @@ class OverviewView extends BaseView {
                 <td class=\"gamelog\">" . $this->sharedFunctions->getTeamnameFromTeamID($row['homeTID']) . "</td>
                 <td class=\"gamelog\">" . $this->sharedFunctions->getTeamnameFromTeamID($row['visitorTID']) . "</td>
                 <td class=\"gamelog\">" . $row['gameMIN'] . "</td>
-                <td class=\"gamelog\">" . ((2 * $row['gameFGM']) + (3 * $row['game3GM']) + $row['gameFTM']) . "</td>
-                <td class=\"gamelog\">" . ($row['gameFGM'] + $row['game3GM']) . "</td>
-                <td class=\"gamelog\">" . ($row['gameFGA'] + $row['game3GA']) . "</td>
+                <td class=\"gamelog\">" . ((2 * $row['game2GM']) + (3 * $row['game3GM']) + $row['gameFTM']) . "</td>
+                <td class=\"gamelog\">" . ($row['game2GM'] + $row['game3GM']) . "</td>
+                <td class=\"gamelog\">" . ($row['game2GA'] + $row['game3GA']) . "</td>
                 <td class=\"gamelog\">" . $fieldGoalPercentage . "</td>
                 <td class=\"gamelog\">" . $row['gameFTM'] . "</td>
                 <td class=\"gamelog\">" . $row['gameFTA'] . "</td>
