@@ -83,8 +83,8 @@ export const load: PageServerLoad = async ({ params }) => {
                     ELSE 0
                 END as isAwayPlayer,
                 bp.gameMIN as min,
-                bp.gameFGM as fgm,
-                bp.gameFGA as fga,
+                bp.game2GM as fgm,
+                bp.game2GA as fga,
                 bp.gameFTM as ftm,
                 bp.gameFTA as fta,
                 bp.game3GM as tpm,
