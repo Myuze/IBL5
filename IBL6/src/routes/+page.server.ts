@@ -31,7 +31,7 @@ export const load: PageServerLoad = async () => {
 			orderBy: {
 				date: 'desc'
 			},
-			take: 25
+			take: 50
 		});
 		console.log(`📊 Found ${games.length} recent games`);
 
