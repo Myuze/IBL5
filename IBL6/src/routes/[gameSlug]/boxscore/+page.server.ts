@@ -97,7 +97,7 @@ export const load: PageServerLoad = async ({ params }) => {
                 bp.gameBLK as blk,
                 bp.gamePF as pf,
                 (bp.gameORB + bp.gameDRB) as reb,
-                (bp.gameFGM * 2 + bp.game3GM + bp.gameFTM) as pts
+                (bp.game2GM * 2 + bp.game3GM + bp.gameFTM) as pts
             FROM ibl_box_scores bp
             LEFT JOIN ibl_plr plr ON bp.pid = plr.pid
             WHERE DATE(bp.Date) = DATE(${gameDate})
