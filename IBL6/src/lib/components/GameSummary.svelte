@@ -16,7 +16,7 @@
 <div id='team-summary-container' class="flex-col sm:text-xs text-center mb-6 bg-base-100">
     <h1 id='team-summary-title' class="text-lg font-semibold pb-2">Game Summary</h1>
     <div class="text-2xl md:max-w-[50%] md:mx-auto font-bold mb-4 rounded-2xl bg-base-200 shadow-md">
-        <div class="grid gap-2 place-items-center" style="grid-template-columns: repeat({numColumns}, minmax(0, 1fr)); grid-template-rows: 1fr 2fr 2fr;">
+        <div id="game-summary-grid" class="grid gap-2 place-items-center" style="grid-template-columns: repeat({numColumns}, minmax(0, 1fr)); grid-template-rows: 1fr 2fr 2fr;">
             <!-- Quarter headers - start from column 2 -->
             <div></div> <!-- Empty first column for team logos -->
             {#each summary.homeQuarterScores as _, index}
@@ -32,8 +32,8 @@
             <div id="home-team" class="text-sm md:text-2xl">
                 <img src="{summary.homeTeamLogoUrl}" alt="{summary.homeTeamName}" />
             </div>
-            {#each summary.homeQuarterScores as score}
-                <div class="text-sm md:text-2xl">{score}</div>
+            {#each summary.homeQuarterScores as score, index}
+                <div id="home-q{index + 1}" class="text-sm md:text-2xl">{score}</div>
             {/each}
             <div id="home-team-final" class="font-bold text-xl md:text-3xl">{homeTotal}</div>
             
@@ -41,8 +41,8 @@
             <div id="away-team" class="text-sm md:text-2xl">
                 <img src="{summary.awayTeamLogoUrl}" alt="{summary.awayTeamName}" />
             </div>
-            {#each summary.awayQuarterScores as score}
-                <div class="text-sm md:text-2xl">{score}</div>
+            {#each summary.awayQuarterScores as score, index}
+                <div id="away-q{index + 1}" class="text-sm md:text-2xl">{score}</div>
             {/each}
             <div id="away-team-final" class="font-bold text-xl md:text-3xl">{awayTotal}</div>
         </div>
