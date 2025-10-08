@@ -6,13 +6,12 @@
     import PlayerCard from '$lib/components/PlayerCard.svelte';
     import SlideButtonSelector from '$lib/components/SlideButtonSelector.svelte';
     import StatsHorizontal from '$lib/components/StatsHorizontal.svelte';
-
-    const headers = [
-        'Pos', 'Name', 'pts', 'min', 'fgm', 'fga', 'ftm', 'fta', 
-        '3pm', '3pa', 'orb', 'reb', 'ast', 'stl', 'blk', 'tov', 'pf'
-    ];
+	import { getAllStatKeys } from '$lib/types/StatFields';
+	import StatsTotals from '$lib/components/StatsTotals.svelte';
 
     let { data }: { data: PageData } = $props();
+
+    const headers = getAllStatKeys();
 
     // Use real data from server
     const game = $derived(data.game);
@@ -26,9 +25,6 @@
     const awayTeamName = $derived(awayTeam?.name || 'Away Team');
     const homeTeamScore = $derived(game?.homeScore || 0);
     const awayTeamScore = $derived(game?.awayScore || 0);
-    
-    const homeTeamColor = $derived(homeTeam?.color1 ? `#${homeTeam.color1}` : '#3B82F6');
-    const awayTeamColor = $derived(awayTeam?.color1 ? `#${awayTeam.color1}` : '#EF4444');
 
     // Selected team state
     let selectedTeamName = $state('');
@@ -36,27 +32,6 @@
     // Sorting state
     let sortColumn = $state<string>('pts');
     let sortDirection = $state<'asc' | 'desc'>('desc');
-
-    // Map header display names to actual property names
-    const columnMap: Record<string, string> = {
-        'Pos': 'pos',
-        'Name': 'name', 
-        'pts': 'pts',
-        'min': 'min',
-        'fgm': 'fgm',
-        'fga': 'fga', 
-        'ftm': 'ftm',
-        'fta': 'fta',
-        '3pm': '3pm',
-        '3pa': '3pa',
-        'orb': 'orb',
-        'reb': 'reb',
-        'ast': 'ast',
-        'stl': 'stl',
-        'blk': 'blk',
-        'tov': 'tov',
-        'pf': 'pf'
-    };
 
     let gameSummary: GameSummaryType = $derived({
         homeTeamName: homeTeamName,
@@ -76,7 +51,7 @@
         
         // Sort the players
         const sortedPlayers = [...basePlayers].sort((a, b) => {
-            const key = columnMap[sortColumn] || sortColumn;
+            const key = sortColumn;
             let aVal = a[key as keyof typeof a];
             let bVal = b[key as keyof typeof b];
             
@@ -110,6 +85,9 @@
         sortColumn = column;
         sortDirection = direction;
     }
+
+    // CSS classes for table styling
+    const nameColumnClass = "sticky left-0 z-20 bg-base-100 group-hover:bg-base-200 font-medium px-3 py-1 border-r border-base-300 shadow-lg min-w-40 max-w-40";
    
     // Set initial team selection when component mounts
     onMount(() => {
@@ -245,29 +223,28 @@
                 <tbody>
                     {#each filteredPlayers as player, rowIndex (player.id || rowIndex)}
                         <tr class="group hover:bg-base-200/50 transition-colors">
-                            <td class="px-2 py-1 text-center text-xs font-medium">{player.pos}</td>
-                            <td class="sticky left-0 z-20 bg-base-100 group-hover:bg-base-200 font-medium px-3 py-1 border-r border-base-300 shadow-lg min-w-32 max-w-32">
-                                <div class="truncate text-sm">
-                                    {player.name}
-                                </div>
-                            </td>
-                            <td class="px-2 py-1 text-center text-sm font-bold text-primary">{player.pts}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.min}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.fgm}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.fga}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.ftm}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.fta}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player['3pm']}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player['3pa']}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.orb}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.reb}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.ast}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.stl}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.blk}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.tov}</td>
-                            <td class="px-2 py-1 text-center text-sm">{player.pf}</td>
+                            {#each headers as statKey}
+                                {#if statKey === 'pos'}
+                                    <td class="px-2 py-1 text-center text-xs font-medium">{player.pos}</td>
+                                {:else if statKey === 'name'}
+                                    <td class={nameColumnClass}>
+                                        <div class="sm:truncate text-sm">
+                                            {player[statKey as keyof typeof player] || 'N/A'}
+                                        </div>
+                                    </td>
+                                {:else if statKey === 'pts'}
+                                    <td class="px-2 py-1 text-center text-sm font-bold text-primary">
+                                        {player[statKey as keyof typeof player] ?? 0}
+                                    </td>
+                                {:else}
+                                <td class="px-2 py-1 text-center text-sm">
+                                    {player[statKey as keyof typeof player] ?? 0}
+                                </td>
+                                {/if}
+                            {/each}
                         </tr>
                     {/each}
+                    <StatsTotals players={filteredPlayers} headers={headers} />
                 </tbody>
                 {#key `${sortColumn}-${sortDirection}`}
                     <tfoot>

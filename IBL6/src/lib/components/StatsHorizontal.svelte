@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getStatDisplayName } from '$lib/types/StatFields';
+
     interface Props {
         headers: string[];
         sortColumn: string;
@@ -8,40 +10,20 @@
 
     let { headers, sortColumn, sortDirection, onSort }: Props = $props();
 
-    const columnMap: Record<string, string> = {
-        'Pos': 'pos',
-        'Name': 'name', 
-        'pts': 'pts',
-        'min': 'min',
-        'fgm': 'fgm',
-        'fga': 'fga', 
-        'ftm': 'ftm',
-        'fta': 'fta',
-        '3pm': '3pm',
-        '3pa': '3pa',
-        'orb': 'orb',
-        'reb': 'reb',
-        'ast': 'ast',
-        'stl': 'stl',
-        'blk': 'blk',
-        'tov': 'tov',
-        'pf': 'pf'
-    };
-
     function getSortIcon(header: string): string {
-        const column = columnMap[header] || header;
+        const column = header;
         if (sortColumn !== column) return '⇅';
         return sortDirection === 'asc' ? '↑' : '↓';
     }
 
     function isActiveSortColumn(header: string): boolean {
-        const column = columnMap[header] || header;
+        const column = header;
         const isActive = sortColumn === column;
         return isActive;
     }
 
     function handleSort(header: string) {
-        const column = columnMap[header] || header;
+        const column = header;
         
         let newDirection: 'asc' | 'desc';
         if (sortColumn === column) {
@@ -60,14 +42,14 @@
         <th 
             class="cursor-pointer select-none hover:bg-base-200 transition-colors px-2 py-3 min-w-10 text-center
                    {isActiveSortColumn(header) ? 'bg-primary/20 text-primary font-bold' : ''}
-                   {header === 'Name' ? 'sticky opacity-100 left-0 z-30 border-r border-base-300 shadow-lg min-w-32' : ''}
-                   {header === 'Name' && !isActiveSortColumn(header) ? 'bg-base-100' : ''}"
+                   {header === 'name' ? 'sticky opacity-100 left-0 z-30 border-r border-base-300 shadow-lg min-w-40' : ''}
+                   {header === 'name' && !isActiveSortColumn(header) ? 'bg-base-100' : ''}"
             onclick={() => handleSort(header)}
             title="Click to sort by {header}"
         >
             <div class="flex items-center gap-1 justify-center">
                 <span class="font-semibold">
-                    {header === 'Pos' || header === 'Name' ? header : header.toUpperCase()}
+                    {getStatDisplayName(header)}
                 </span>
                 <span class="text-xs opacity-60">
                     {getSortIcon(header)}
