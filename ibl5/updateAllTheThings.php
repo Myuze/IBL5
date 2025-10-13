@@ -25,6 +25,9 @@ $powerRankingsUpdater->update();
 // Generate standings HTML
 $standingsHTMLGenerator->generateStandingsPage();
 
+// Reset extension attempts
+$sharedFunctions->resetSimContractExtensionAttempts();
+
 echo '<p><b>All the things have been updated!</br><p>';
 
 echo '<a href="index.php">Return to the IBL homepage</a>';

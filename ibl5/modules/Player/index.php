@@ -305,12 +305,12 @@ function showpage($playerID, $pageView)
     // END OF DISPLAY PAGE
 }
 
-function negotiate($pid)
+function negotiate($playerID)
 {
     global $prefix, $db, $user, $cookie;
 
-    $pid = intval($pid);
-    $playerinfo = $db->sql_fetchrow($db->sql_query("SELECT * FROM ibl_plr WHERE pid = '$pid'"));
+    $playerID = intval($playerID);
+    $playerinfo = $db->sql_fetchrow($db->sql_query("SELECT * FROM ibl_plr WHERE pid = '$playerID'"));
     $player_name = stripslashes(check_html($playerinfo['name'], "nohtml"));
     $player_pos = stripslashes(check_html($playerinfo['pos'], "nohtml"));
     $player_team_name = stripslashes(check_html($playerinfo['teamname'], "nohtml"));
@@ -442,7 +442,7 @@ function negotiate($pid)
             $avgDemands = $adjustedScore * $demandsFactor;
             $totalDemands = $avgDemands * 5;
             $baseDemands = $totalDemands / 6;
-            $maxRaise = round($baseDemands * 0.1);
+            $maxRaise = floor($baseDemands * 0.1);
 
             $dem1 = $baseDemands;
             $dem2 = $baseDemands + $maxRaise;
@@ -450,18 +450,7 @@ function negotiate($pid)
             $dem4 = $baseDemands + $maxRaise * 3;
             $dem5 = $baseDemands + $maxRaise * 4;
             $dem6 = 0;
-            /*
-            // Old way to determine demands here
-            $demands = $db->sql_fetchrow($db->sql_query("SELECT * FROM ibl_demands WHERE name='$player_name'"));
-            $dem1 = stripslashes(check_html($demands['dem1'], "nohtml"));
-            $dem2 = stripslashes(check_html($demands['dem2'], "nohtml"));
-            $dem3 = stripslashes(check_html($demands['dem3'], "nohtml"));
-            $dem4 = stripslashes(check_html($demands['dem4'], "nohtml"));
-            $dem5 = stripslashes(check_html($demands['dem5'], "nohtml"));
-            // The sixth year is zero for extensions only; remove the line below and uncomment the regular line in the FA module.
-            $dem6 = 0;
-            //    $dem6 = stripslashes(check_html($demands['dem6'], "nohtml"));
-             */
+            
             $teamfactors = $db->sql_fetchrow($db->sql_query("SELECT * FROM ibl_team_info WHERE team_name = '$userteam'"));
             $tf_wins = stripslashes(check_html($teamfactors['Contract_Wins'], "nohtml"));
             $tf_loss = stripslashes(check_html($teamfactors['Contract_Losses'], "nohtml"));
@@ -538,7 +527,7 @@ function negotiate($pid)
             $dem6 = 0;
             // $dem6 = round($dem6/$modifier);
 
-            $demtot = round(($dem1 + $dem2 + $dem3 + $dem4 + $dem5 + $dem6) / 100, 2);
+            $demtot = round($dem1 + $dem2 + $dem3 + $dem4 + $dem5 + $dem6);
 
             $demand_display = $dem1;
             if ($dem2 != 0) {
@@ -599,7 +588,7 @@ function negotiate($pid)
             if ($fa_active == 1) {
                 echo "Sorry, the contract extension feature is not available during free agency.";
             } else {
-                echo "<form name=\"ExtensionOffer\" method=\"post\" action=\"extension.php\">";
+                echo "<form name=\"ExtensionOffer\" method=\"post\" action=\"modules/Player/extension.php\">";
 
                 $maxyr1 = 1063;
                 if ($player_exp > 6) {
@@ -619,11 +608,11 @@ function negotiate($pid)
                         <td>";
 
                 if ($dem1 < $maxyr1) {
-                    echo "<INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offeryear1\" SIZE=\"4\" VALUE=\"$dem1\"></td>
-                        <td><INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offeryear2\" SIZE=\"4\" VALUE=\"$dem2\"></td>
-                        <td><INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offeryear3\" SIZE=\"4\" VALUE=\"$dem3\"></td>
-                        <td><INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offeryear4\" SIZE=\"4\" VALUE=\"$dem4\"></td>
-                        <td><INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offeryear5\" SIZE=\"4\" VALUE=\"$dem5\"></td>
+                    echo "<INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offerYear1\" SIZE=\"4\" VALUE=\"$dem1\"></td>
+                        <td><INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offerYear2\" SIZE=\"4\" VALUE=\"$dem2\"></td>
+                        <td><INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offerYear3\" SIZE=\"4\" VALUE=\"$dem3\"></td>
+                        <td><INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offerYear4\" SIZE=\"4\" VALUE=\"$dem4\"></td>
+                        <td><INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offerYear5\" SIZE=\"4\" VALUE=\"$dem5\"></td>
                     </tr>";
                 } else {
                     if ($player_bird >= 3) {
@@ -650,11 +639,11 @@ function negotiate($pid)
                         $maxyr5 = $maxyr4 + $maxraise;
                     }
 
-                    echo "<INPUT TYPE=\"text\" NAME=\"offeryear1\" SIZE=\"4\" VALUE=\"$maxyr1\"></td>
-                        <td><INPUT TYPE=\"text\" NAME=\"offeryear2\" SIZE=\"4\" VALUE=\"$maxyr2\"></td>
-                        <td><INPUT TYPE=\"text\" NAME=\"offeryear3\" SIZE=\"4\" VALUE=\"$maxyr3\"></td>
-                        <td><INPUT TYPE=\"text\" NAME=\"offeryear4\" SIZE=\"4\" VALUE=\"$maxyr4\"></td>
-                        <td><INPUT TYPE=\"text\" NAME=\"offeryear5\" SIZE=\"4\" VALUE=\"$maxyr5\"></td>
+                    echo "<INPUT TYPE=\"text\" NAME=\"offerYear1\" SIZE=\"4\" VALUE=\"$maxyr1\"></td>
+                        <td><INPUT TYPE=\"text\" NAME=\"offerYear2\" SIZE=\"4\" VALUE=\"$maxyr2\"></td>
+                        <td><INPUT TYPE=\"text\" NAME=\"offerYear3\" SIZE=\"4\" VALUE=\"$maxyr3\"></td>
+                        <td><INPUT TYPE=\"text\" NAME=\"offerYear4\" SIZE=\"4\" VALUE=\"$maxyr4\"></td>
+                        <td><INPUT TYPE=\"text\" NAME=\"offerYear5\" SIZE=\"4\" VALUE=\"$maxyr5\"></td>
                     </tr>";
                 }
 
@@ -675,18 +664,12 @@ function negotiate($pid)
 
                 echo "<li>When re-signing your own players, you can go over the soft cap and up to the hard cap (" . League::HARD_CAP_MAX . ").</li>
                     </ul></td></tr>
-                    <input type=\"hidden\" name=\"dem1\" value=\"$dem1\">
-                    <input type=\"hidden\" name=\"dem2\" value=\"$dem2\">
-                    <input type=\"hidden\" name=\"dem3\" value=\"$dem3\">
-                    <input type=\"hidden\" name=\"dem4\" value=\"$dem4\">
-                    <input type=\"hidden\" name=\"dem5\" value=\"$dem5\">
-                    <input type=\"hidden\" name=\"bird\" value=\"$player_bird\">
                     <input type=\"hidden\" name=\"maxyr1\" value=\"$maxyr1\">
-                    <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
-                    <input type=\"hidden\" name=\"demtot\" value=\"$demtot\">
-                    <input type=\"hidden\" name=\"demyrs\" value=\"$demyrs\">
-                    <input type=\"hidden\" name=\"teamname\" value=\"$userteam\">
-                    <input type=\"hidden\" name=\"playername\" value=\"$player_name\">
+                    <input type=\"hidden\" name=\"demandsTotal\" value=\"$demtot\">
+                    <input type=\"hidden\" name=\"demandsYears\" value=\"$demyrs\">
+                    <input type=\"hidden\" name=\"teamName\" value=\"$userteam\">
+                    <input type=\"hidden\" name=\"playerName\" value=\"$player_name\">
+                    <input type=\"hidden\" name=\"playerID\" value=\"$playerID\">
                 </table>";
 
                 echo "<input type=\"submit\" value=\"Offer Extension!\"></form>";

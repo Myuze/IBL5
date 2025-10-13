@@ -1,6 +1,7 @@
 .DS_Store
 .env
 .ftpquota
+.phpunit.result.cache
 .vscode
 error_log
 node_modules

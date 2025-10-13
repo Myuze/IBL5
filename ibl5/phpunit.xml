@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/bootstrap.php"
+         colors="true"
+         testdox="true">
+    <testsuites>
+        <testsuite name="Trading Module Tests">
+            <directory>tests/Trading</directory>
+        </testsuite>
+        <testsuite name="Extension Module Tests">
+            <directory>tests/Extension</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
