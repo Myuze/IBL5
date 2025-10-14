@@ -41,7 +41,7 @@
     {#each headers as header, index}
         <th 
             class="cursor-pointer select-none hover:bg-base-200 transition-colors px-2 py-3 min-w-10 text-center
-                   {isActiveSortColumn(header) ? 'bg-primary/20 text-primary font-bold' : ''}
+                   {isActiveSortColumn(header) ? 'bg-primary text-info font-bold' : ''}
                    {header === 'name' ? 'sticky opacity-100 left-0 z-30 border-r border-base-300 shadow-lg min-w-40' : ''}
                    {header === 'name' && !isActiveSortColumn(header) ? 'bg-base-100' : ''}"
             onclick={() => handleSort(header)}
