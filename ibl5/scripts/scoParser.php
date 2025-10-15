@@ -7,7 +7,7 @@ function scoParser($uploadedFilePath, $operatingSeasonEndingYear, $operatingSeas
     global $db, $mysqli_db;
     $season = new Season($db);
 
-    $scoFilePath = ($uploadedFilePath) ? $uploadedFilePath : "IBL5.sco";
+    $scoFilePath = ($uploadedFilePath) ? $uploadedFilePath : $_SERVER['DOCUMENT_ROOT'] . "/ibl5/IBL5.sco";
     $operatingSeasonEndingYear = ($operatingSeasonEndingYear) ? $operatingSeasonEndingYear : $season->endingYear;
     $operatingSeasonStartingYear = $operatingSeasonEndingYear - 1;
     $operatingSeasonPhase = ($operatingSeasonPhase) ? $operatingSeasonPhase : $season->phase;
@@ -199,7 +199,7 @@ function scoParser($uploadedFilePath, $operatingSeasonEndingYear, $operatingSeas
 
 echo "<h1>JSB .sco File Parser</h1>
 <h2>Uploader</h2>
-<form enctype=\"multipart/form-data\" action=\"scoParser.php\" method=\"POST\">
+<form enctype=\"multipart/form-data\" action=\"ibl5/scripts/scoParser.php\" method=\"POST\">
     <input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"14000000\" />
     <label for=\"scoFile\">Upload Old Season's .sco: </label><input name=\"scoFile\" type=\"file\" /><p>
     <label for=\"seasonPhase\">Season Phase for Uploaded .sco: </label><select name=\"seasonPhase\">

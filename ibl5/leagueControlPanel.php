@@ -167,7 +167,7 @@ echo "<FORM action=\"leagueControlPanel.php\" method=\"POST\">
 switch ($season->phase) {
     case 'Preseason':
         echo "<A HREF=\"updateAllTheThings.php\">Update All The Things</A><p>
-            <A HREF=\"scoParser.php\">Run scoParser.php</A><p>
+            <A HREF=\"/ibl5/scripts/scoParser.php\">Run scoParser.php</A><p>
             <select name=\"Waivers\">
                 <option value = \"Yes\"" . ($season->allowWaivers == "Yes" ? " SELECTED" : "") . ">Yes</option>
                 <option value = \"No\"" . ($season->allowWaivers == "No" ? " SELECTED" : "") . ">No</option>
@@ -177,16 +177,16 @@ switch ($season->phase) {
         break;
     case 'HEAT':
         echo "<A HREF=\"updateAllTheThings.php\">Update All The Things</A><p>
-            <A HREF=\"scoParser.php\">Run scoParser.php</A><p>
+            <A HREF=\"/ibl5/scripts/scoParser.php\">Run scoParser.php</A><p>
             <A HREF=\"heatupdateboth.php\">Update HEAT Leaderboards</A><p>
             <A HREF=\"history_update.php\">IBL History Update</A><p>
             <INPUT type='submit' name='query' value='Insert new `ibl_heat_win_loss` database entries'><p>";
         break;
     case 'Regular Season':
-        echo "<A HREF=\"plrParser.php\">Run plrParser.php</A>
+        echo "<A HREF=\"/ibl5/scripts/plrParser.php\">Run plrParser.php</A>
                 <br><b>(but make sure you've uploaded the updated PLR file before you run this!)</b><p>
             <A HREF=\"updateAllTheThings.php\">Update All The Things</A><p>
-            <A HREF=\"scoParser.php\">Run scoParser.php</A><p>
+            <A HREF=\"/ibl5/scripts/scoParser.php\">Run scoParser.php</A><p>
             <INPUT type='number' name='SimLengthInDays' min=1 max=180 size=3 value='" . League::getSimLengthInDays($db) . "'>
             <INPUT type='submit' name='query' value='Set Sim Length in Days'> <i>
                 <br>(you HAVE to CLICK to set the days – you unfortunately can't just hit Return/Enter)<p>
@@ -200,7 +200,7 @@ switch ($season->phase) {
         break;
     case 'Playoffs':
         echo "<A HREF=\"updateAllTheThings.php\">Update All The Things</A><p>
-            <A HREF=\"scoParser.php\">Run scoParser.php</A><p>
+            <A HREF=\"/ibl5/scripts/scoParser.php\">Run scoParser.php</A><p>
             <INPUT type='submit' name='query' value='Reset End of the Year Voting'><p>
             <select name=\"Trades\">
                 <option value = \"Yes\"" . ($season->allowTrades == "Yes" ? " SELECTED" : "") . ">Yes</option>
