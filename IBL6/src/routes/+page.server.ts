@@ -73,11 +73,11 @@ export const load: PageServerLoad = async () => {
 			teams: serializePrismaData(teams),
 			ibl_players: serializePrismaData(ibl_players)
 		};
-	} catch (err: any) {
+	} catch (err: unknown) {
 		console.error('❌ Error fetching homepage data:', err);
-		console.error('❌ Error details:', err.message);
+		console.error('❌ Error details:', (err as Error).message);
 
 		// Throw proper SvelteKit error instead of silently returning empty arrays
-		throw error(500, `Failed to load homepage data: ${err.message}`);
+		throw error(500, `Failed to load homepage data: ${(err as Error).message}`);
 	}
 };
