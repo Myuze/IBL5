@@ -9,7 +9,7 @@
   }
 </script>
 
-<div class="relative bg-base-200 p-1 rounded-lg flex min-lg:w-1/4 w-full">
+<div class="relative bg-base-200 p-1 rounded-lg flex lg:w-1/4 w-full">
   <!-- Sliding background -->
   <div 
     class="absolute bg-primary rounded transition-all duration-300 ease-in-out"

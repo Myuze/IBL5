@@ -5,17 +5,17 @@ test('boxscore page shows two teams and two rosters', async ({ page }) => {
 	await page.goto('/2006-02-11-game-4/boxscore');
 
 	// Wait for the teams to load
-	await expect(page.locator('.bg-gradient-to-r')).toBeVisible();
+	await expect(page.locator('.bg-linear-to-r')).toBeVisible();
 
 	// Get team name elements (adjust selector as needed)
-	const teamNames = await page.locator('.bg-gradient-to-r .text-sm.opacity-90').allTextContents();
+	const teamNames = await page.locator('.bg-linear-to-r .text-sm.opacity-90').allTextContents();
 	expect(teamNames.length).toBe(2);
 	expect(teamNames[0]).not.toBe('');
 	expect(teamNames[1]).not.toBe('');
 
 	// Check player counts for each team (adjust selector as needed)
 	const playerCounts = await page
-		.locator('.bg-gradient-to-r .text-xs.opacity-70')
+		.locator('.bg-linear-to-r .text-xs.opacity-70')
 		.allTextContents();
 	expect(playerCounts.length).toBe(2);
 	// Parse "X players" and ensure > 0
