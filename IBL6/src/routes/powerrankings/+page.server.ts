@@ -26,12 +26,12 @@ export const load = (async () => {
 				ranking: 'desc'
 			}
 		});
-		console.log('Power Rankings:', powerRankings);
+
+		// Convert ranking to string to avoid serialization issues
 		const sanitizedRankings = powerRankings.map((pr) => ({
 			...pr,
 			ranking: pr.ranking?.toString()
 		}));
-		console.log('Sanitized Rankings:', sanitizedRankings);
 
 		return { powerRankings: serializePrismaData(sanitizedRankings) };
 	} catch (error) {
