@@ -10,7 +10,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 <div>
-	<div class="relative z-50 navbar bg-base-100 shadow-sm">
+	<div class="navbar relative z-50 bg-base-100 shadow-sm">
 		<div class="navbar-start">
 			<div class="dropdown">
 				<div tabindex="0" role="button" class="btn btn-circle btn-ghost">
@@ -29,26 +29,10 @@
 						/>
 					</svg>
 				</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< Updated upstream
+
 				<ul class="dropdown-content menu z-[100] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
 					<li><a href="/">Homepage</a></li>
-=======
-				<ul
-					class="dropdown-content menu z-1 mt-3 w-52 menu-sm rounded-box bg-base-100 p-2 shadow"
-				>
-					<li><a href="/">Homepage</a></li>
-                    <li><a href="/powerrankings">Power Rankings</a></li>
->>>>>>> Stashed changes
-=======
-				<ul class="dropdown-content menu z-[100] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
-					<li><a href="/">Homepage</a></li>
->>>>>>> 824f39f172eb56b9fbf29538107344b81214583d
-=======
-				<ul class="dropdown-content menu z-[100] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
-					<li><a href="/">Homepage</a></li>
->>>>>>> 824f39f172eb56b9fbf29538107344b81214583d
+					<li><a href="/powerrankings">Power Rankings</a></li>
 					<li><a href="/standings">Standings (Under Construction)</a></li>
 					<li><a href="/teams">Teams (Under Construction)</a></li>
 					<li><a href="/players">Players (Under Construction)</a></li>
