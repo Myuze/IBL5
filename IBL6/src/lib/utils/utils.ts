@@ -19,7 +19,7 @@ export function serializePrismaData<T>(data: T): T {
 	}
 
 	if (typeof data === 'object') {
-		const serialized: any = {};
+		const serialized: Record<string, unknown> = {};
 		for (const [key, value] of Object.entries(data)) {
 			serialized[key] = serializePrismaData(value);
 		}
