@@ -30,6 +30,7 @@
 					</svg>
 				</div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 				<ul class="dropdown-content menu z-[100] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
 					<li><a href="/">Homepage</a></li>
@@ -40,6 +41,10 @@
 					<li><a href="/">Homepage</a></li>
                     <li><a href="/powerrankings">Power Rankings</a></li>
 >>>>>>> Stashed changes
+=======
+				<ul class="dropdown-content menu z-[100] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
+					<li><a href="/">Homepage</a></li>
+>>>>>>> 824f39f172eb56b9fbf29538107344b81214583d
 =======
 				<ul class="dropdown-content menu z-[100] mt-3 w-52 rounded-box bg-base-100 p-2 shadow">
 					<li><a href="/">Homepage</a></li>
