@@ -226,7 +226,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		// Transform player data
 		const formatPlayers = (playerList: PlayerInfo[]) => {
 			return playerList.map((player: PlayerInfo) => ({
-				id: player.pid,
+				pid: player.pid,
 				pos: player.pos || 'N/A',
 				name: player.name || 'Unknown',
 				teamId: Number(player.playerTeamId), // Add team ID for debugging

@@ -1,29 +1,64 @@
-<script>
-    let player = {
-        id: '1',
-        name: 'Michael Jordan',
-        pos: 'SG',
-        pts: 25.3,
-        reb: 5.1,
-        ast: 7.4,
-        img_url: '/playerimg/1230.jpg'
-    };
-    let team = {
-        id: '1',
-        name: 'Bulls',
-        logo: '/teamlogo/new7.png'
-    }
+<script lang="ts">
+	import type { StatFields, g } from '$lib/types/StatFields';
+	import type { IblPlayer, Team } from '@prisma/client';
+	import { elasticIn } from 'svelte/easing';
+	import { fade, fly } from 'svelte/transition';
+
+	export interface PlayerCardProps {
+		player: PlayerProps;
+		team?: TeamProps;
+		onCardDefaultClickAction?: () => void;
+		onCardPlayerPortraitClickAction?: () => IblPlayer | undefined;
+		onCardStatClickAction?: (stat_name: string) => StatFields | undefined;
+	}
+
+	interface PlayerProps {
+		pid: number;
+		name: string;
+		team: TeamProps;
+		showcase_stats: string[];
+		img_url?: string;
+	}
+
+	interface TeamProps {
+		id: number;
+		name: string;
+		logo_url?: string;
+	}
+
+	let {
+		player,
+		team,
+		onCardDefaultClickAction,
+		onCardPlayerPortraitClickAction,
+		onCardStatClickAction
+	}: PlayerCardProps = $props();
+
+	console.log('PlayerCard player:', $inspect(player));
+	console.log('PlayerCard team:', $inspect(team));
+
+	const playerImgUrlBase = $derived(`/player/${player.pid}.jpg`);
+	const teamLogoUrlBase = $derived(`/teamlogo/new${team?.id}.png`);
 </script>
-<div class="card bg-base-100 w-96 p-5 border-2 border-rose-300 shadow-sm carousel-item">
-    <figure class="join rounded-box w-full min-h-50">
-        <img class="join-item w-40 h-40" src={player.img_url} alt="{player.name}" />
-        <img class="join-item w-40 h-40" src={team.logo} alt="{team.name}" />
-    </figure>
-    <div class="card-body ">
-        <h2 class="card-title">{player.name}</h2>
-        <p>POS: {player.pos}</p>
-        <p>PTS: {player.pts}</p>
-        <p>REB: {player.reb}</p>
-        <p>AST: {player.ast}</p>
-    </div>
+
+<div
+	in:fade={{ duration: 500 }}
+	out:fly={{ easing: elasticIn }}
+	class="card mx-auto carousel-item w-96 items-center border-2 border-rose-300 bg-base-100 p-5 shadow-sm"
+	style:background="linear-gradient(135deg, #000000 5%, #036bfc, #d703fc 90%);"
+>
+	<figure class="join min-h-50 w-full rounded-box">
+		<img class="join-item h-40 object-cover" src={playerImgUrlBase} alt={player.name} />
+		<img class="object-fit join-item h-40" src={teamLogoUrlBase} alt={team?.name} />
+	</figure>
+	<div class="card-body grid grid-cols-2 gap-2">
+		<h2 class="card-title">{player.name}</h2>
+		{#each player.showcase_stats as stat_name}
+			<p>{stat_name}</p>
+			<!-- <p>{stat_name}: {player[stat_name]}</p> -->
+			<!-- <p>PTS: {player.pts}</p>
+		<p>REB: {player.reb}</p>
+		<p>AST: {player.ast}</p> -->
+		{/each}
+	</div>
 </div>

@@ -34,7 +34,7 @@
 			>
 				<div id="team-container" class={prTeamContainerClass}>
 					<img
-						src={`https://iblhoops.net/ibl5/images/logo/${ranking.TeamID}.jpg`}
+						src={`teambanner/${ranking.TeamID}.jpg`}
 						alt={ranking.Team}
 						class={prTeamImageClass}
 					/>
