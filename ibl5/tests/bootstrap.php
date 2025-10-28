@@ -34,8 +34,50 @@ spl_autoload_register(function ($class) {
         }
     }
     
-    // Handle global namespace classes like Player and Team
-    if (in_array($class, ['Player', 'Team'])) {
+    // Handle DepthChart classes with namespace
+    if (strpos($class, 'DepthChart\\') === 0) {
+        // Remove namespace prefix to get just the class name
+        $className = str_replace('DepthChart\\', '', $class);
+        $file = __DIR__ . '/../classes/DepthChart/' . $className . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            return true;
+        }
+    }
+    
+    // Handle Updater classes with namespace
+    if (strpos($class, 'Updater\\') === 0) {
+        // Remove namespace prefix to get just the class name
+        $className = str_replace('Updater\\', '', $class);
+        $file = __DIR__ . '/../classes/Updater/' . $className . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            return true;
+        }
+    }
+    
+    // Handle Services namespace (for DatabaseService and future services)
+    if (strpos($class, 'Services\\') === 0) {
+        $className = str_replace('Services\\', '', $class);
+        $file = __DIR__ . '/../classes/Services/' . $className . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            return true;
+        }
+    }
+
+    // Handle Voting namespace
+    if (strpos($class, 'Voting\\') === 0) {
+        $className = str_replace('Voting\\', '', $class);
+        $file = __DIR__ . '/../classes/Voting/' . $className . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            return true;
+        }
+    }
+    
+    // Handle global namespace classes like Player, Team, League, and JSB
+    if (in_array($class, ['Player', 'Team', 'League', 'JSB'])) {
         $file = __DIR__ . '/../classes/' . $class . '.php';
         if (file_exists($file)) {
             require_once $file;
@@ -204,21 +246,6 @@ class MockDatabaseResult
     }
 }
 
-// Mock external dependencies that Trading classes might need
-if (!class_exists('League')) {
-    class League
-    {
-        const HARD_CAP_MAX = 75000;
-    }
-}
-
-if (!class_exists('JSB')) {
-    class JSB
-    {
-        const WAIVERS_ORDINAL = 50000;
-    }
-}
-
 if (!class_exists('Discord')) {
     class Discord
     {
@@ -246,7 +273,91 @@ if (!class_exists('Shared')) {
         
         public function getTidFromTeamname($teamname)
         {
-            return 1; // Mock team ID
+            // Mock team ID mapping
+            static $teamMap = [
+                'Atlanta Hawks' => 1,
+                'Boston Celtics' => 2,
+                'Charlotte Hornets' => 3,
+                'Chicago Bulls' => 4,
+                'Cleveland Cavaliers' => 5,
+                'Dallas Mavericks' => 6,
+                'Denver Nuggets' => 7,
+                'Detroit Pistons' => 8,
+                'Golden State Warriors' => 9,
+                'Houston Rockets' => 10,
+                'Indiana Pacers' => 11,
+                'LA Clippers' => 12,
+                'LA Lakers' => 13,
+                'Memphis Grizzlies' => 14,
+                'Miami Heat' => 15,
+                'Milwaukee Bucks' => 16,
+                'Minnesota Timberwolves' => 17,
+                'New Jersey Nets' => 18,
+                'New Orleans Hornets' => 19,
+                'New York Knicks' => 20,
+                'Orlando Magic' => 21,
+                'Philadelphia 76ers' => 22,
+                'Phoenix Suns' => 23,
+                'Portland Trail Blazers' => 24,
+                'Sacramento Kings' => 25,
+                'San Antonio Spurs' => 26,
+                'Seattle SuperSonics' => 27,
+                'Toronto Raptors' => 28,
+                'Utah Jazz' => 29,
+                'Vancouver Grizzlies' => 30,
+                'Washington Wizards' => 31,
+            ];
+            
+            return $teamMap[$teamname] ?? 1;
+        }
+        
+        public function resetSimContractExtensionAttempts()
+        {
+            echo '<p>Resetting sim contract extension attempts...</p>';
+            $sqlQueryString = "UPDATE ibl_team_info SET Used_Extension_This_Chunk = 0;";
+            if ($this->db->sql_query($sqlQueryString)) {
+                echo '<p>Sim contract extension attempts have been reset.</p>';
+                return;
+            }
+        }
+    }
+}
+
+if (!class_exists('UI')) {
+    class UI
+    {
+        public static function displayDebugOutput($content, $title = 'Debug Output')
+        {
+            // In test mode, don't output anything
+            // This prevents test output pollution
+            if (defined('PHPUNIT_RUNNING') || php_sapi_name() === 'cli') {
+                return;
+            }
+            
+            // Otherwise, output normally (though this shouldn't happen in tests)
+            static $debugId = 0;
+            $debugId++;
+            
+            echo "<div style='margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;'>
+                <div style='padding: 8px; background-color: #f5f5f5; border-bottom: 1px solid #ccc; cursor: pointer;'
+                     onclick='toggleDebug$debugId()'>
+                    <span id='debugIcon$debugId'>▶</span> $title
+                </div>
+                <pre id='debugContent$debugId' style='display: none; margin: 0; padding: 8px; background-color: #fff; overflow: auto;'>$content</pre>
+            </div>
+            <script>
+                function toggleDebug$debugId() {
+                    var content = document.getElementById('debugContent$debugId');
+                    var icon = document.getElementById('debugIcon$debugId');
+                    if (content.style.display === 'none') {
+                        content.style.display = 'block';
+                        icon.textContent = '▼';
+                    } else {
+                        content.style.display = 'none';
+                        icon.textContent = '▶';
+                    }
+                }
+            </script>";
         }
     }
 }

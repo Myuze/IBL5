@@ -9,5 +9,11 @@
         <testsuite name="Extension Module Tests">
             <directory>tests/Extension</directory>
         </testsuite>
+        <testsuite name="UpdateAllTheThings Tests">
+            <directory>tests/UpdateAllTheThings</directory>
+        </testsuite>
+        <testsuite name="DepthChart Module Tests">
+            <directory>tests/DepthChart</directory>
+        </testsuite>
     </testsuites>
 </phpunit>

@@ -103,11 +103,11 @@ if (isset($_POST['query'])) {
             }
             $successText = "Sim Length in Days has been set to {$_POST['SimLengthInDays']}.";
             break;
-        case 'Set Waiver Wire Status':
+        case 'Set Allow Waiver Moves Status':
             if (isset($_POST['Waivers'])) {
                 $queryString = "UPDATE ibl_settings SET value = '{$_POST['Waivers']}' WHERE name = 'Allow Waiver Moves';";
             }
-            $successText = "Waiver Wire Status has been set to {$_POST['Waivers']}.";
+            $successText = "Allow Waiver Moves Status has been set to {$_POST['Waivers']}.";
             break;
         case 'Toggle Free Agency Notifications':
             if (isset($_POST['FANotifs'])) {
@@ -166,26 +166,30 @@ echo "<FORM action=\"leagueControlPanel.php\" method=\"POST\">
 
 switch ($season->phase) {
     case 'Preseason':
-        echo "<A HREF=\"updateAllTheThings.php\">Update All The Things</A><p>
+        echo "<A HREF=\"/ibl5/scripts/plrParser.php\">Run plrParser.php</A>
+                <br><b>(but make sure you've uploaded the updated PLR file before you run this!)</b><p>
+            <A HREF=\"/ibl5/scripts/updateAllTheThings.php\">Update All The Things</A><p>
             <A HREF=\"/ibl5/scripts/scoParser.php\">Run scoParser.php</A><p>
             <select name=\"Waivers\">
                 <option value = \"Yes\"" . ($season->allowWaivers == "Yes" ? " SELECTED" : "") . ">Yes</option>
                 <option value = \"No\"" . ($season->allowWaivers == "No" ? " SELECTED" : "") . ">No</option>
             </select>
-            <INPUT type='submit' name='query' value='Set Waiver Wire Status'><p>
+            <INPUT type='submit' name='query' value='Set Allow Waiver Moves Status'><p>
             <INPUT type='submit' name='query' value='Set all players on waivers to Free Agents and reset their Bird years'><p>";
         break;
     case 'HEAT':
-        echo "<A HREF=\"updateAllTheThings.php\">Update All The Things</A><p>
+        echo "<A HREF=\"/ibl5/scripts/plrParser.php\">Run plrParser.php</A>
+                <br><b>(but make sure you've uploaded the updated PLR file before you run this!)</b><p>
+            <A HREF=\"/ibl5/scripts/updateAllTheThings.php\">Update All The Things</A><p>
             <A HREF=\"/ibl5/scripts/scoParser.php\">Run scoParser.php</A><p>
-            <A HREF=\"heatupdateboth.php\">Update HEAT Leaderboards</A><p>
-            <A HREF=\"history_update.php\">IBL History Update</A><p>
+            <A HREF=\"/ibl5/scripts/heatupdateboth.php\">Update HEAT Leaderboards</A><p>
+            <A HREF=\"/ibl5/scripts/history_update.php\">IBL History Update</A><p>
             <INPUT type='submit' name='query' value='Insert new `ibl_heat_win_loss` database entries'><p>";
         break;
     case 'Regular Season':
         echo "<A HREF=\"/ibl5/scripts/plrParser.php\">Run plrParser.php</A>
                 <br><b>(but make sure you've uploaded the updated PLR file before you run this!)</b><p>
-            <A HREF=\"updateAllTheThings.php\">Update All The Things</A><p>
+            <A HREF=\"/ibl5/scripts/updateAllTheThings.php\">Update All The Things</A><p>
             <A HREF=\"/ibl5/scripts/scoParser.php\">Run scoParser.php</A><p>
             <INPUT type='number' name='SimLengthInDays' min=1 max=180 size=3 value='" . League::getSimLengthInDays($db) . "'>
             <INPUT type='submit' name='query' value='Set Sim Length in Days'> <i>
@@ -199,7 +203,9 @@ switch ($season->phase) {
             <INPUT type='submit' name='query' value='Set Allow Trades Status'><p>";
         break;
     case 'Playoffs':
-        echo "<A HREF=\"updateAllTheThings.php\">Update All The Things</A><p>
+        echo "<A HREF=\"/ibl5/scripts/plrParser.php\">Run plrParser.php</A>
+                <br><b>(but make sure you've uploaded the updated PLR file before you run this!)</b><p>
+            <A HREF=\"/ibl5/scripts/updateAllTheThings.php\">Update All The Things</A><p>
             <A HREF=\"/ibl5/scripts/scoParser.php\">Run scoParser.php</A><p>
             <INPUT type='submit' name='query' value='Reset End of the Year Voting'><p>
             <select name=\"Trades\">
@@ -209,16 +215,21 @@ switch ($season->phase) {
             <INPUT type='submit' name='query' value='Set Allow Trades Status'><p>";
         break;
     case 'Draft':
-        echo "<A HREF=\"playoffupdate.php\">Playoff Leaderboard Update #1</A><p>
-            <A HREF=\"playofflbupdate.php\">Playoff Leaderboard Update #2</A><p>
-            <A HREF=\"seasonlbupdate.php\">Season Leaderboard Update</A><p>
-            <A HREF=\"history_update.php\">IBL History Update</A><p>";
+        echo "<A HREF=\"/ibl5/scripts/playoffupdate.php\">Playoff Leaderboard Update #1</A><p>
+            <A HREF=\"/ibl5/scripts/playofflbupdate.php\">Playoff Leaderboard Update #2</A><p>
+            <A HREF=\"/ibl5/scripts/seasonlbupdate.php\">Season Leaderboard Update</A><p>
+            <A HREF=\"/ibl5/scripts/history_update.php\">IBL History Update</A><p>
+            <select name=\"Waivers\">
+                <option value = \"Yes\"" . ($season->allowWaivers == "Yes" ? " SELECTED" : "") . ">Yes</option>
+                <option value = \"No\"" . ($season->allowWaivers == "No" ? " SELECTED" : "") . ">No</option>
+            </select>
+            <INPUT type='submit' name='query' value='Set Allow Waiver Moves Status'><p>";
         break;
     case 'Free Agency':
         echo "<INPUT type='submit' name='query' value='Reset All Contract Extensions'><p>
             <INPUT type='submit' name='query' value='Reset All MLEs/LLEs'><p>
             <INPUT type='submit' name='query' value='Set Free Agency factors for PFW'><p>
-            <A HREF=\"tradition.php\">Set Free Agency factors for Tradition</A><p>
+            <A HREF=\"/ibl5/scripts/tradition.php\">Set Free Agency factors for Tradition</A><p>
             <select name=\"FANotifs\">
                 <option value = \"On\"" . ($season->freeAgencyNotificationsState == "On" ? " SELECTED" : "") . ">On</option>
                 <option value = \"Off\"" . ($season->freeAgencyNotificationsState == "Off" ? " SELECTED" : "") . ">Off</option>
@@ -228,7 +239,7 @@ switch ($season->phase) {
                 <option value = \"Yes\"" . ($season->allowWaivers == "Yes" ? " SELECTED" : "") . ">Yes</option>
                 <option value = \"No\"" . ($season->allowWaivers == "No" ? " SELECTED" : "") . ">No</option>
             </select>
-            <INPUT type='submit' name='query' value='Set Waiver Wire Status'><p>
+            <INPUT type='submit' name='query' value='Set Allow Waiver Moves Status'><p>
             <INPUT type='submit' name='query' value='Set all players on waivers to Free Agents and reset their Bird years'><p>";
         break;
 }

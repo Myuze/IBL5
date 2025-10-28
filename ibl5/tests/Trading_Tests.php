@@ -3,6 +3,28 @@
 // Simple test without database dependencies
 echo "Testing Trading Module Refactoring (Unit Tests)...\n\n";
 
+// Set up autoloader for classes
+spl_autoload_register(function ($class) {
+    // Handle classes in the global namespace
+    $file = __DIR__ . '/../classes/' . $class . '.php';
+    if (file_exists($file)) {
+        require_once $file;
+        return true;
+    }
+    
+    // Handle Trading classes
+    if (strpos($class, 'Trading_') === 0) {
+        $classFile = str_replace('Trading_', '', $class);
+        $file = __DIR__ . '/../classes/Trading/' . $classFile . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            return true;
+        }
+    }
+    
+    return false;
+});
+
 // Mock database class for testing
 class MockDB {
     public function sql_query($query) { return true; }
@@ -25,11 +47,7 @@ class MockSeason {
 }
 
 class MockLeague {
-    const HARD_CAP_MAX = 75000;
-}
-
-class MockJSB {
-    const WAIVERS_ORDINAL = 50000;
+    const HARD_CAP_MAX = 7000;
 }
 
 class MockDiscord {
@@ -38,18 +56,13 @@ class MockDiscord {
 }
 
 // Define mock classes
-class League { const HARD_CAP_MAX = 75000; }
-class JSB { const WAIVERS_ORDINAL = 50000; }
+class League { const HARD_CAP_MAX = 7000; }
 class Discord {
     public static function getDiscordIDFromTeamname($db, $teamname) { return '123456789'; }
     public static function postToChannel($channel, $message) { return true; }
 }
 class Shared extends MockShared {}
 class Season extends MockSeason {}
-
-// Load our trading classes
-require "../classes/Trading/TradeValidator.php";
-require "../classes/Trading/CashTransactionHandler.php";
 
 $mockDb = new MockDB();
 

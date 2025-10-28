@@ -55,7 +55,7 @@ class ScheduleUpdater {
             $log .= 'TRUNCATE TABLE ibl_schedule<p>';
         }
 
-        $scheduleFilePath = 'ibl/IBL/Schedule.htm';
+        $scheduleFilePath = $_SERVER['DOCUMENT_ROOT'] . '/ibl5/ibl/IBL/Schedule.htm';
         $schedule = new \DOMDocument();
         $schedule->loadHTMLFile($scheduleFilePath);
         $schedule->preserveWhiteSpace = false;

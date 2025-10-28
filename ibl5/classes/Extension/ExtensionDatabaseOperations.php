@@ -21,26 +21,6 @@ class ExtensionDatabaseOperations
     }
 
     /**
-     * Escapes a string for SQL queries
-     * Works with both real MySQL class and mock database
-     * 
-     * @param string $string String to escape
-     * @return string Escaped string
-     */
-    private function escapeString($string)
-    {
-        // Check if this is the real MySQL class with db_connect_id
-        if (isset($this->db->db_connect_id) && $this->db->db_connect_id) {
-            return mysqli_real_escape_string($this->db->db_connect_id, $string);
-        }
-        // Otherwise use the mock's sql_escape_string or fallback to addslashes
-        if (method_exists($this->db, 'sql_escape_string')) {
-            return $this->db->sql_escape_string($string);
-        }
-        return addslashes($string);
-    }
-
-    /**
      * Updates a player's contract with the new extension terms
      * 
      * @param string $playerName Player name
@@ -57,7 +37,7 @@ class ExtensionDatabaseOperations
         $year4 = (isset($offer['year4']) && $offer['year4'] !== '' && $offer['year4'] !== null) ? $offer['year4'] : 0;
         $year5 = (isset($offer['year5']) && $offer['year5'] !== '' && $offer['year5'] !== null) ? $offer['year5'] : 0;
         
-        $playerNameEscaped = $this->escapeString($playerName);
+        $playerNameEscaped = \Services\DatabaseService::escapeString($this->db, $playerName);
         
         $query = "UPDATE ibl_plr SET 
             cy = 1, 
@@ -82,7 +62,7 @@ class ExtensionDatabaseOperations
      */
     public function markExtensionUsedThisSim($teamName)
     {
-        $teamNameEscaped = $this->escapeString($teamName);
+        $teamNameEscaped = \Services\DatabaseService::escapeString($this->db, $teamName);
         $query = "UPDATE ibl_team_info SET Used_Extension_This_Chunk = 1 WHERE team_name = '$teamNameEscaped'";
         $result = $this->db->sql_query($query);
         return $result !== false;
@@ -96,7 +76,7 @@ class ExtensionDatabaseOperations
      */
     public function markExtensionUsedThisSeason($teamName)
     {
-        $teamNameEscaped = $this->escapeString($teamName);
+        $teamNameEscaped = \Services\DatabaseService::escapeString($this->db, $teamName);
         $query = "UPDATE ibl_team_info SET Used_Extension_This_Season = 1 WHERE team_name = '$teamNameEscaped'";
         $result = $this->db->sql_query($query);
         return $result !== false;
@@ -117,7 +97,7 @@ class ExtensionDatabaseOperations
         $timestamp = date('Y-m-d H:i:s', time());
         
         // Get team's topic ID
-        $teamNameEscaped = $this->escapeString($teamName);
+        $teamNameEscaped = \Services\DatabaseService::escapeString($this->db, $teamName);
         $querytopic = "SELECT topicid FROM nuke_topics WHERE topicname = '$teamNameEscaped'";
         $resulttopic = $this->db->sql_query($querytopic);
         $topicid = $this->db->sql_result($resulttopic, 0, "topicid");
@@ -133,7 +113,7 @@ class ExtensionDatabaseOperations
         $this->db->sql_query($queryUpdateCounter);
         
         // Create the story
-        $playerNameEscaped = $this->escapeString($playerName);
+        $playerNameEscaped = \Services\DatabaseService::escapeString($this->db, $playerName);
         $title = "$playerNameEscaped extends their contract with the $teamNameEscaped";
         $hometext = "$playerNameEscaped today accepted a contract extension offer from the $teamNameEscaped worth $offerInMillions million dollars over $offerYears years";
         if ($offerDetails) {
@@ -141,8 +121,8 @@ class ExtensionDatabaseOperations
         }
         $hometext .= ".";
         
-        $hometextEscaped = $this->escapeString($hometext);
-        $titleEscaped = $this->escapeString($title);
+        $hometextEscaped = \Services\DatabaseService::escapeString($this->db, $hometext);
+        $titleEscaped = \Services\DatabaseService::escapeString($this->db, $title);
         
         $querystor = "INSERT INTO nuke_stories (catid, aid, title, time, hometext, topic, informant, counter, alanguage)
             VALUES ('$catid', 'Associated Press', '$titleEscaped', '$timestamp', '$hometextEscaped', '$topicid', 'Associated Press', '0', 'english')";
@@ -165,7 +145,7 @@ class ExtensionDatabaseOperations
         $timestamp = date('Y-m-d H:i:s', time());
         
         // Get team's topic ID
-        $teamNameEscaped = $this->escapeString($teamName);
+        $teamNameEscaped = \Services\DatabaseService::escapeString($this->db, $teamName);
         $querytopic = "SELECT topicid FROM nuke_topics WHERE topicname = '$teamNameEscaped'";
         $resulttopic = $this->db->sql_query($querytopic);
         $topicid = $this->db->sql_result($resulttopic, 0, "topicid");
@@ -181,12 +161,12 @@ class ExtensionDatabaseOperations
         $this->db->sql_query($queryUpdateCounter);
         
         // Create the story
-        $playerNameEscaped = $this->escapeString($playerName);
+        $playerNameEscaped = \Services\DatabaseService::escapeString($this->db, $playerName);
         $title = "$playerNameEscaped turns down an extension offer from the $teamNameEscaped";
         $hometext = "$playerNameEscaped today rejected a contract extension offer from the $teamNameEscaped worth $offerInMillions million dollars over $offerYears years.";
         
-        $hometextEscaped = $this->escapeString($hometext);
-        $titleEscaped = $this->escapeString($title);
+        $hometextEscaped = \Services\DatabaseService::escapeString($this->db, $hometext);
+        $titleEscaped = \Services\DatabaseService::escapeString($this->db, $title);
         
         $querystor = "INSERT INTO nuke_stories (catid, aid, title, time, hometext, topic, informant, counter, alanguage)
             VALUES ('$catid', 'Associated Press', '$titleEscaped', '$timestamp', '$hometextEscaped', '$topicid', 'Associated Press', '0', 'english')";
@@ -203,7 +183,7 @@ class ExtensionDatabaseOperations
      */
     public function getPlayerPreferences($playerName)
     {
-        $playerNameEscaped = $this->escapeString($playerName);
+        $playerNameEscaped = \Services\DatabaseService::escapeString($this->db, $playerName);
         $query = "SELECT * FROM ibl_plr WHERE name = '$playerNameEscaped'";
         $result = $this->db->sql_query($query);
         
@@ -222,7 +202,7 @@ class ExtensionDatabaseOperations
      */
     public function getPlayerCurrentContract($playerName)
     {
-        $playerNameEscaped = $this->escapeString($playerName);
+        $playerNameEscaped = \Services\DatabaseService::escapeString($this->db, $playerName);
         $query = "SELECT cy, cy1, cy2, cy3, cy4, cy5, cy6 FROM ibl_plr WHERE name = '$playerNameEscaped'";
         $result = $this->db->sql_query($query);
         

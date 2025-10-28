@@ -30,36 +30,7 @@ class ExtensionValidator
         $this->db = $db;
     }
 
-    /**
-     * Escapes a string for SQL queries
-     * Works with both real MySQL class and mock database
-     * 
-     * @param string $string String to escape
-     * @return string Escaped string
-     */
-    private function escapeString($string)
-    {
-        // Check if this is the real MySQL class with db_connect_id
-        if (isset($this->db->db_connect_id) && $this->db->db_connect_id) {
-            return mysqli_real_escape_string($this->db->db_connect_id, $string);
-        }
-        // Otherwise use the mock's sql_escape_string or fallback to addslashes
-        if (method_exists($this->db, 'sql_escape_string')) {
-            return $this->db->sql_escape_string($string);
-        }
-        return addslashes($string);
-    }
 
-    /**
-     * Public wrapper for escapeString to be used by ExtensionProcessor
-     * 
-     * @param string $string String to escape
-     * @return string Escaped string
-     */
-    public function escapeStringPublic($string)
-    {
-        return $this->escapeString($string);
-    }
 
     /**
      * Validates that the first three years of the offer have non-zero amounts

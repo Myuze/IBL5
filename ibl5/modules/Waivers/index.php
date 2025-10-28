@@ -36,13 +36,7 @@ function waivers($user)
         }
         Nuke\Footer::footer();
     } elseif (is_user($user)) {
-        if (
-            ($season->phase == "Preseason" AND $season->allowWaivers == "Yes")
-            OR ($season->phase == "Free Agency" AND $season->allowWaivers == "Yes")
-            OR $season->phase == "HEAT"
-            OR $season->phase == "Regular Season"
-            OR $season->phase == "Playoffs"
-        ) {
+        if ($season->allowWaivers == "Yes") {
             global $cookie;
             waiverexecute($cookie[1], $action);
         } else {

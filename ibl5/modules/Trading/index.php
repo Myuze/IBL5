@@ -36,33 +36,18 @@ function buildTeamFuturePicks($resultTeamPicks, $future_salary_array)
     return $uiHelper->buildTeamFuturePicks($resultTeamPicks, $future_salary_array);
 }
 
-function tradeoffer($username, $bypass = 0, $hid = 0, $url = 0)
+function tradeoffer($username)
 {
-    global $user, $prefix, $user_prefix, $db, $partner;
+    global $db, $partner;
     $sharedFunctions = new Shared($db);
     $season = new Season($db);
 
-    $sql = "SELECT * FROM " . $prefix . "_bbconfig";
-    $result = $db->sql_query($sql);
-    while ($row = $db->sql_fetchrow($result)) {
-        $board_config[$row['config_name']] = $row['config_value'];
-    }
-
-    $sql2 = "SELECT * FROM " . $user_prefix . "_users WHERE username = '$username'";
-    $result2 = $db->sql_query($sql2);
-    $userinfo = $db->sql_fetchrow($result2);
-    if (!$bypass) {
-        cookiedecode($user);
-    }
-
-    Nuke\Header::header();
-
+    $teamlogo = $sharedFunctions->getTeamnameFromUsername($username);
+    $teamID = $sharedFunctions->getTidFromTeamname($teamlogo);
     $currentSeasonEndingYear = $season->endingYear; // we use this as an incrementer
 
+    Nuke\Header::header();
     OpenTable();
-
-    $teamlogo = $userinfo['user_ibl_team'];
-    $teamID = $sharedFunctions->getTidFromTeamname($teamlogo); // This function now returns an integer
     UI::displaytopmenu($db, $teamID);
 
     $queryUserTeamPlayers = "SELECT pos, name, pid, ordinal, cy, cy1, cy2, cy3, cy4, cy5, cy6
@@ -122,7 +107,7 @@ function tradeoffer($username, $bypass = 0, $hid = 0, $url = 0)
 					<td valign=top><b>Salary</b></td>
 				</tr>";
 
-    $partnerTeamID = $sharedFunctions->getTidFromTeamname($partner); // This function now returns an integer
+    $partnerTeamID = $sharedFunctions->getTidFromTeamname($partner);
     $queryPartnerTeamPlayers = "SELECT pos, name, pid, ordinal, cy, cy1, cy2, cy3, cy4, cy5, cy6
 		FROM ibl_plr
 		WHERE tid = $partnerTeamID
@@ -213,34 +198,16 @@ function tradeoffer($username, $bypass = 0, $hid = 0, $url = 0)
     Nuke\Footer::footer();
 }
 
-function tradereview($username, $bypass = 0, $hid = 0, $url = 0)
+function tradereview($username)
 {
-    global $user, $prefix, $user_prefix, $db;
+    global $db;
     $sharedFunctions = new Shared($db);
 
-    $sql = "SELECT * FROM " . $prefix . "_bbconfig";
-    $result = $db->sql_query($sql);
-    while ($row = $db->sql_fetchrow($result)) {
-        $board_config[$row['config_name']] = $row['config_value'];
-    }
-
-    // ==== PICKUP LOGGED-IN USER INFO
-
-    $sql2 = "SELECT * FROM " . $user_prefix . "_users WHERE username = '$username'";
-    $result2 = $db->sql_query($sql2);
-    $userinfo = $db->sql_fetchrow($result2);
-    if (!$bypass) {
-        cookiedecode($user);
-    }
-
-    // ===== END OF INFO PICKUP
+    $teamlogo = $sharedFunctions->getTeamnameFromUsername($username);
+    $teamID = $sharedFunctions->getTidFromTeamname($teamlogo);
 
     Nuke\Header::header();
-
     OpenTable();
-
-    $teamlogo = $userinfo['user_ibl_team'];
-    $teamID = $sharedFunctions->getTidFromTeamname($teamlogo); // This function now returns an integer
     UI::displaytopmenu($db, $teamID);
 
     echo "<center><img src=\"images/logo/$teamID.jpg\"><br>";

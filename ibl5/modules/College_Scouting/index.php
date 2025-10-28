@@ -101,7 +101,7 @@ function userinfo($username, $bypass = 0, $hid = 0, $url = 0)
 			<th>Int</th>
 		</tr>";
 
-    echo "<form name='draft_form' action='draft_selection.php' method='POST'>";
+    echo "<form name='draft_form' action='/ibl5/modules/College_Scouting/draft_selection.php' method='POST'>";
     echo "<input type='hidden' name='teamname' value='$teamlogo'>";
     echo "<input type='hidden' name='draft_round' value='$draft_round'>";
     echo "<input type='hidden' name='draft_pick' value='$draft_pick'>";

@@ -39,7 +39,9 @@ ibl5/
 ```
 
 ### Class Autoloading
-- **Location**: The class autoloader is defined in `mainfile.php`
+- **Location**: The class autoloader is defined in `mainfile.php:216-248`
+- Modules have access to the autoloader via `require_once` in their entry point files (modules.php)
+- Use the existing class autoloader for all new classes
 - All classes should be placed in `ibl5/classes/` directory
 - Follow PSR-4 autoloading conventions when creating new classes
 - Use proper namespacing for new classes to facilitate future Laravel migration
@@ -48,9 +50,13 @@ ibl5/
 - **Framework**: PHPUnit 12.4+ compatibility required
 - **Test Location**: All tests in `ibl5/tests/` directory
 - **PR Completion Criteria**: No warnings or failures allowed
-- Always run the full test suite before marking a PR as complete
+- Always run the full test suite before stopping work on a PR
 - Add tests for new functionality
 - Update tests when refactoring existing code
+- Static production data (when available) is preferred over mock data
+- Mock functionality should not be used unless absolutely necessary
+- Instantiation of classes should be done via the class autoloader
+- Do not write tests that only test mocks or instantiation
 
 ### Database Considerations
 - Current queries use MySQL-specific syntax

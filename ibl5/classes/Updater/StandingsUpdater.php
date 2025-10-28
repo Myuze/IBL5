@@ -53,10 +53,10 @@ class StandingsUpdater {
         echo '<p>The ibl_standings table has been updated.<p><br>';
     }
 
-    private function extractStandingsValues() {
+    protected function extractStandingsValues() {
         echo '<p>Updating the conference standings for all teams...<p>';
 
-        $standingsFilePath = 'ibl/IBL/Standings.htm';
+        $standingsFilePath = $_SERVER['DOCUMENT_ROOT'] . '/ibl5/ibl/IBL/Standings.htm';
         $standings = new \DOMDocument();
         $standings->loadHTMLFile($standingsFilePath);
         $standings->preserveWhiteSpace = false;

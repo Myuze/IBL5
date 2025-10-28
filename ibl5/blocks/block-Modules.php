@@ -64,7 +64,7 @@ while ($row3 = $db->sql_fetchrow($result3)) {
     }
     if ($m_title != $main_module) {
         if ((is_admin($admin) and $view == 2) or $view != 2) {
-            $content .= "<li><a href=\"modules.php?name=$m_title\">$m_title2</li>";
+            $content .= "<li><a href=\"modules.php?name=$m_title\">$m_title2</a></li>";
         }
     }
 }

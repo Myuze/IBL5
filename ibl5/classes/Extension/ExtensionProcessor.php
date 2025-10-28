@@ -320,7 +320,7 @@ class ExtensionProcessor
         try {
             // First, try to get from mock database (for tests)
             // Check if team_info has money_committed_at_position field
-            $teamNameEscaped = $this->validator->escapeStringPublic($team->name);
+            $teamNameEscaped = \Services\DatabaseService::escapeString($this->db, $team->name);
             $query = "SELECT money_committed_at_position FROM ibl_team_info WHERE team_name = '$teamNameEscaped' LIMIT 1";
             $result = $this->db->sql_query($query);
             
@@ -364,7 +364,7 @@ class ExtensionProcessor
     private function getTeamTraditionData($teamName)
     {
         try {
-            $teamNameEscaped = $this->validator->escapeStringPublic($teamName);
+            $teamNameEscaped = \Services\DatabaseService::escapeString($this->db, $teamName);
             $query = "SELECT Contract_Wins, Contract_Losses, Contract_AvgW, Contract_AvgL FROM ibl_team_info WHERE team_name = '$teamNameEscaped' LIMIT 1";
             $result = $this->db->sql_query($query);
             

@@ -1099,7 +1099,7 @@ function negotiate($pid)
     } else {
         echo "<table cellspacing=0 border=1><tr><td>My demands are:</td><td>$demand_display</td></tr>
 
-		<form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+		<form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
 		<tr><td>Please enter your offer in this row:</td><td>";
         if ($player_exp > 0) {
             echo "<INPUT TYPE=\"number\" style=\"width: 4em\" NAME=\"offeryear1\" SIZE=\"4\" VALUE=\"$prefill1\"></td><td>
@@ -1136,7 +1136,7 @@ function negotiate($pid)
 		<td>Max Level Contract 10%(click the button that corresponds to the final year you wish to offer):</td>
 
 		<td>
-            <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+            <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                 <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                 <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
                 <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
@@ -1154,7 +1154,7 @@ function negotiate($pid)
         </td>
 
 		<td>
-            <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+            <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                 <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                 <input type=\"hidden\" name=\"offeryear2\" value=\"$maxstartsat2\">
                 <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
@@ -1175,7 +1175,7 @@ function negotiate($pid)
 
         if ($player_exp > 0) {
             echo "<td>
-                <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                     <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                     <input type=\"hidden\" name=\"offeryear2\" value=\"$maxstartsat2\">
                     <input type=\"hidden\" name=\"offeryear3\" value=\"$maxstartsat3\">
@@ -1197,7 +1197,7 @@ function negotiate($pid)
             </td>
 
 			<td>
-                <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                     <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                     <input type=\"hidden\" name=\"offeryear2\" value=\"$maxstartsat2\">
                     <input type=\"hidden\" name=\"offeryear3\" value=\"$maxstartsat3\">
@@ -1221,7 +1221,7 @@ function negotiate($pid)
             </td>
 
 			<td>
-                <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                     <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                     <input type=\"hidden\" name=\"offeryear2\" value=\"$maxstartsat2\">
                     <input type=\"hidden\" name=\"offeryear3\" value=\"$maxstartsat3\">
@@ -1247,7 +1247,7 @@ function negotiate($pid)
             </td>
 
 			<td>
-                <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                     <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                     <input type=\"hidden\" name=\"offeryear2\" value=\"$maxstartsat2\">
                     <input type=\"hidden\" name=\"offeryear3\" value=\"$maxstartsat3\">
@@ -1284,7 +1284,7 @@ function negotiate($pid)
         if ($player_bird > 2 && $player_team_name == $userteam) {
             echo "<tr><td><b>Max Bird Level Contract 12.5%(click the button that corresponds to the final year you wish to offer):</b></td>
 			<td>
-                <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                     <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                     <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
                     <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
@@ -1302,7 +1302,7 @@ function negotiate($pid)
             </td>
 
 			<td>
-                <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                     <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                     <input type=\"hidden\" name=\"offeryear2\" value=\"$maxstartsatbird2\">
                     <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
@@ -1322,7 +1322,7 @@ function negotiate($pid)
             </td>
 
 			<td>
-                <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                     <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                     <input type=\"hidden\" name=\"offeryear2\" value=\"$maxstartsatbird2\">
                     <input type=\"hidden\" name=\"offeryear3\" value=\"$maxstartsatbird3\">
@@ -1344,7 +1344,7 @@ function negotiate($pid)
             </td>
 
 			<td>
-                <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                     <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                     <input type=\"hidden\" name=\"offeryear2\" value=\"$maxstartsatbird2\">
                     <input type=\"hidden\" name=\"offeryear3\" value=\"$maxstartsatbird3\">
@@ -1368,7 +1368,7 @@ function negotiate($pid)
             </td>
 
 			<td>
-                <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                     <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                     <input type=\"hidden\" name=\"offeryear2\" value=\"$maxstartsatbird2\">
                     <input type=\"hidden\" name=\"offeryear3\" value=\"$maxstartsatbird3\">
@@ -1394,7 +1394,7 @@ function negotiate($pid)
             </td>
 
 			<td>
-                <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                     <input type=\"hidden\" name=\"offeryear1\" value=\"$maxstartsat\">
                     <input type=\"hidden\" name=\"offeryear2\" value=\"$maxstartsatbird2\">
                     <input type=\"hidden\" name=\"offeryear3\" value=\"$maxstartsatbird3\">
@@ -1432,7 +1432,7 @@ function negotiate($pid)
                 echo "<tr><td>Mid-Level Exception (click the button that corresponds to the final year you wish to offer):</td>
 
 				<td>
-                    <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                    <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                         <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
                         <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
                         <input type=\"hidden\" name=\"demtot\" value=\"$demtot\">
@@ -1448,7 +1448,7 @@ function negotiate($pid)
                 </td>
 
 				<td>
-                    <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                    <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                         <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
                         <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
                         <input type=\"hidden\" name=\"capnumber2\" value=\"$capnumber2\">
@@ -1465,7 +1465,7 @@ function negotiate($pid)
 
                 if ($player_exp > 0) {
                     echo "<td>
-                        <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                        <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                             <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
                             <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
                             <input type=\"hidden\" name=\"capnumber2\" value=\"$capnumber2\">
@@ -1483,7 +1483,7 @@ function negotiate($pid)
                     </td>
 
 					<td>
-                        <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                        <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                             <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
                             <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
                             <input type=\"hidden\" name=\"capnumber2\" value=\"$capnumber2\">
@@ -1502,7 +1502,7 @@ function negotiate($pid)
                     </td>
 
 					<td>
-                        <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                        <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                             <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
                             <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
                             <input type=\"hidden\" name=\"capnumber2\" value=\"$capnumber2\">
@@ -1522,7 +1522,7 @@ function negotiate($pid)
                     </td>
 
 					<td>
-                        <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                        <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                             <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
                             <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
                             <input type=\"hidden\" name=\"capnumber2\" value=\"$capnumber2\">
@@ -1555,7 +1555,7 @@ function negotiate($pid)
             if ($LLEoffers == 0) {
                 echo "<tr><td>Lower-Level Exception:</td>
 				<td>
-                    <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+                    <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                         <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
                         <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
                         <input type=\"hidden\" name=\"demtot\" value=\"$demtot\">
@@ -1577,7 +1577,7 @@ function negotiate($pid)
 
         echo "<tr><td>Veterans Exception:</td>
 		<td>
-            <form name=\"FAOffer\" method=\"post\" action=\"freeagentoffer.php\">
+            <form name=\"FAOffer\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentoffer.php\">
                 <input type=\"hidden\" name=\"amendedCapSpaceYear1\" value=\"$amendedCapSpaceYear1\">
                 <input type=\"hidden\" name=\"capnumber\" value=\"$capnumber\">
                 <input type=\"hidden\" name=\"demtot\" value=\"$demtot\">
@@ -1620,7 +1620,7 @@ function negotiate($pid)
 		</form>
 	";
 
-    echo "<form name=\"FAOfferDelete\" method=\"post\" action=\"freeagentofferdelete.php\">
+    echo "<form name=\"FAOfferDelete\" method=\"post\" action=\"/ibl5/modules/Free_Agency/freeagentofferdelete.php\">
 		<input type=\"submit\" value=\"Retract All Offers to this Player!\">
 		<input type=\"hidden\" name=\"teamname\" value=\"$userteam\">
         <input type=\"hidden\" name=\"player_teamname\" value=\"$player_team_name\">

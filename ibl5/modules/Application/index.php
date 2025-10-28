@@ -24,7 +24,7 @@ Nuke\Header::header();
 
 <b>IBL Prospective GM Application</b><br>
 Please completely fill out the application. All fields are mandatory for submission.
-<form name="contactform" method="post" action="send_form_email.php">
+<form name="contactform" method="post" action="/ibl5/modules/Application/send_form_email.php">
 <table width="450px">
 <tr>
  <td valign="top">

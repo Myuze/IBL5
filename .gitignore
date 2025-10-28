@@ -13,7 +13,6 @@ config.php
 config.inc.php
 discordWebhooks (not CURL).php
 Discord.php
-/ibl5/joe/ibl_draft/includes/classes/Discord.php
 
 backups
 depthcharts

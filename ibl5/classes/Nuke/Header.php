@@ -36,34 +36,6 @@ class Header
         echo '<meta name="google-site-verification" content="3y3xJYDHSYUitn7cbfFfI6C2BiK_q66dtRfykpzHW5w" />';
         echo "<script src=\"{$relativePath}jslib/sorttable.js\"></script>";
 
-        ?>
-        <!-- banner org_green -->
-
-                <!-- Attach our CSS -->
-            <link rel="stylesheet" href="<?php echo $relativePath ?>themes/<?php echo $ThemeSel ?>/orbit-1.2.3.css">
-
-
-            <!-- Attach necessary JS -->
-            <script type="text/javascript" src="<?php echo $relativePath ?>themes/<?php echo $ThemeSel ?>/jquery-1.5.1.min.js"></script>
-            <script type="text/javascript" src="<?php echo $relativePath ?>themes/<?php echo $ThemeSel ?>/jquery.orbit-1.2.3.min.js"></script>
-
-                <!--[if IE]>
-                    <style type="text/css">
-                        .timer { display: none !important; }
-                        div.caption { background:transparent; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000,endColorstr=#99000000);zoom: 1; }
-                    </style>
-                <![endif]-->
-
-            <!-- Run the plugin -->
-            <script type="text/javascript">
-                $(window).load(function() {
-                    $('#featured').orbit();
-                });
-            </script>
-
-
-        <!-- end banner org_green -->
-        <?php
         include "includes/meta.php";
         include "includes/javascript.php";
 

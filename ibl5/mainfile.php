@@ -238,7 +238,16 @@ function mlaphp_autoloader($class)
     // the path to our central class directory location
     $dir = 'classes';
 
-    // prefix with the central directory location and suffix with .php,
+    // Special handling for Services namespace (ibl5/classes/Services)
+    if (strpos($subpath, 'Services' . DIRECTORY_SEPARATOR) === 0) {
+        $file = $dir . DIRECTORY_SEPARATOR . $subpath . '.php';
+        if (file_exists($file)) {
+            require $file;
+            return;
+        }
+    }
+
+    // Default: prefix with the central directory location and suffix with .php,
     // then require it.
     $file = $dir . DIRECTORY_SEPARATOR . $subpath . '.php';
     require $file;

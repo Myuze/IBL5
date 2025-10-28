@@ -238,6 +238,7 @@ class Trading_TradeProcessor
         $discordText = "<@!$fromDiscordId> and <@!$toDiscordId> agreed to a trade:<br>" . $storytext;
         
         Discord::postToChannel('#trades', $discordText);
+        Discord::postToChannel('#general-chat', $storytext);
     }
 
     /**
