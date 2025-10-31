@@ -1,5 +1,7 @@
 <?php
 
+use Services\DatabaseService;
+
 require $_SERVER['DOCUMENT_ROOT'] . '/ibl5/mainfile.php';
 $season = new Season($db);
 
@@ -62,8 +64,8 @@ if ($tid == null) {
             $yearoffreeagency = $draftyear + $exp + $cyt - $cy;
 
             if ($yearoffreeagency == $season->endingYear) {
-                $name = $db->sql_result($result, $i, "name");
-                $team = $db->sql_result($result, $i, "teamname");
+                $name = DatabaseService::safeHtmlOutput($db->sql_result($result, $i, "name")); // Safely escape for HTML
+                $team = DatabaseService::safeHtmlOutput($db->sql_result($result, $i, "teamname")); // Safely escape for HTML
                 $tid = $db->sql_result($result, $i, "tid");
                 $pid = $db->sql_result($result, $i, "pid");
                 $pos = $db->sql_result($result, $i, "pos");

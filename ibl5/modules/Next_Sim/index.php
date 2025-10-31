@@ -1,5 +1,7 @@
 <?php
 
+use Player\Player;
+
 global $db, $cookie;
 $sharedFunctions = new Shared($db);
 $season = new Season($db);

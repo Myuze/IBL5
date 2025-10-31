@@ -1,10 +1,13 @@
 <?php
 
+use Services\DatabaseService;
+
 require_once __DIR__ . '/BaseView.php';
 
 class AwardsAndNewsView extends BaseView {
     public function render() {
-        $awardsquery = $this->db->sql_query("SELECT * FROM ibl_awards WHERE name='" . $this->player->name . "' ORDER BY year ASC");
+        $escapedName = DatabaseService::escapeString($this->db, $this->player->name);
+        $awardsquery = $this->db->sql_query("SELECT * FROM ibl_awards WHERE name='" . $escapedName . "' ORDER BY year ASC");
 
         echo "<table border=1 cellspacing=0 cellpadding=0 valign=top style='margin: 0 auto;'>
             <tr>
@@ -26,11 +29,11 @@ class AwardsAndNewsView extends BaseView {
         <tr>
             <td>";
 
-        $playerName = $this->player->name;
+        $escapedPlayerName = DatabaseService::escapeString($this->db, $this->player->name);
         $query = "SELECT *
             FROM nuke_stories
-            WHERE (hometext LIKE '%$playerName%' OR bodytext LIKE '%$playerName%')
-                AND (hometext NOT LIKE '%$playerName II%' OR bodytext NOT LIKE '%$playerName II%')
+            WHERE (hometext LIKE '%$escapedPlayerName%' OR bodytext LIKE '%$escapedPlayerName%')
+                AND (hometext NOT LIKE '%$escapedPlayerName II%' OR bodytext NOT LIKE '%$escapedPlayerName II%')
                 ORDER BY time DESC;";
         $result = $this->db->sql_query($query);
         $num = $this->db->sql_numrows($result);
@@ -39,8 +42,8 @@ class AwardsAndNewsView extends BaseView {
         $i = 0;
         while ($i < $num) {
             $sid = $this->db->sql_result($result, $i, "sid");
-            $title = $this->db->sql_result($result, $i, "title");
-            $time = $this->db->sql_result($result, $i, "time");
+            $title = DatabaseService::safeHtmlOutput($this->db->sql_result($result, $i, "title"));
+            $time = DatabaseService::safeHtmlOutput($this->db->sql_result($result, $i, "time"));
 
             echo "* <a href=\"modules.php?name=News&file=article&sid=$sid&mode=&order=0&thold=0\">$title</a> ($time)<br>";
 

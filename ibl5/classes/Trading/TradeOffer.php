@@ -164,7 +164,8 @@ class Trading_TradeOffer
                 $tradeOfferId,
                 $offeringTeamName,
                 $listeningTeamName,
-                $tradeData['userSendsCash']
+                $tradeData['userSendsCash'],
+                $listeningTeamName  // Approval should always be the listening team
             );
             $tradeText .= $result['tradeText'];
         }
@@ -191,7 +192,8 @@ class Trading_TradeOffer
                 $tradeOfferId,
                 $listeningTeamName,
                 $offeringTeamName,
-                $tradeData['partnerSendsCash']
+                $tradeData['partnerSendsCash'],
+                $listeningTeamName  // Approval should always be the listening team
             );
             $tradeText .= $result['tradeText'];
         }
@@ -292,9 +294,10 @@ class Trading_TradeOffer
      * @param string $offeringTeamName Offering team name
      * @param string $listeningTeamName Listening team name
      * @param array $cashAmounts Cash amounts by year
+     * @param string $approvalTeamName Team that needs to approve the trade (should always be the listening team of the overall trade)
      * @return array Result
      */
-    protected function insertCashTradeOffer($tradeOfferId, $offeringTeamName, $listeningTeamName, $cashAmounts)
+    protected function insertCashTradeOffer($tradeOfferId, $offeringTeamName, $listeningTeamName, $cashAmounts, $approvalTeamName)
     {
         // Insert cash data
         $this->cashHandler->insertCashTradeData($tradeOfferId, $offeringTeamName, $listeningTeamName, $cashAmounts);
@@ -315,7 +318,7 @@ class Trading_TradeOffer
             'cash',
             '$offeringTeamName',
             '$listeningTeamName',
-            '$listeningTeamName' )";
+            '$approvalTeamName' )";
         
         $this->db->sql_query($query);
 

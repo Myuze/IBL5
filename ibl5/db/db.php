@@ -95,6 +95,10 @@ switch ($dbtype) {
 if ($dbtype == 'MySQL') {
     $db = new MySQL($dbhost, $dbuname, $dbpass, $dbname, false);
     $mysqli_db = new mysqli($dbhost, $dbuname, $dbpass, $dbname);
+    // Set character set to UTF-8 to support accent marks and special characters
+    if ($mysqli_db) {
+        $mysqli_db->set_charset('utf8mb4');
+    }
 } else if ($dbtype == 'sqlite') {
     $db = new SQLite($dbhost);
 } else {

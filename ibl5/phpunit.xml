@@ -3,6 +3,12 @@
          colors="true"
          testdox="true">
     <testsuites>
+        <testsuite name="Services Tests">
+            <directory>tests/Services</directory>
+        </testsuite>
+        <testsuite name="Player Module Tests">
+            <directory>tests/Player</directory>
+        </testsuite>
         <testsuite name="Trading Module Tests">
             <directory>tests/Trading</directory>
         </testsuite>
@@ -14,6 +20,9 @@
         </testsuite>
         <testsuite name="DepthChart Module Tests">
             <directory>tests/DepthChart</directory>
+        </testsuite>
+        <testsuite name="Waivers Module Tests">
+            <directory>tests/Waivers</directory>
         </testsuite>
     </testsuites>
 </phpunit>

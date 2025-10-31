@@ -1,5 +1,7 @@
 <?php
 
+use Player\Player;
+
 abstract class BaseView {
     protected $db;
     protected $player;

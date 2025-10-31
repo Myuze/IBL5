@@ -27,4 +27,20 @@ class DatabaseService
         }
         return addslashes($string);
     }
+
+    /**
+     * Safely prepares a string from database for HTML output.
+     * Removes SQL escaping (backslashes) and applies HTML entity encoding.
+     *
+     * @param string $string String from database (may contain escaped quotes)
+     * @param int $flags Optional htmlspecialchars flags (default: ENT_QUOTES | ENT_HTML5)
+     * @return string String safe for HTML output
+     */
+    public static function safeHtmlOutput(string $string, int $flags = ENT_QUOTES | ENT_HTML5): string
+    {
+        // First remove any backslash escaping from database storage
+        $unescaped = stripslashes($string);
+        // Then apply HTML entity encoding to prevent XSS and HTML breakage
+        return htmlspecialchars($unescaped, $flags, 'UTF-8');
+    }
 }

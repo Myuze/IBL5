@@ -1,5 +1,7 @@
 <?php
 
+use Player\Player;
+
 class Team
 {
     protected $db;

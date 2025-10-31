@@ -10,6 +10,8 @@
  * Usage: php end_to_end_test.php
  */
 
+use Player\Player;
+
 // Load the application environment
 require_once __DIR__ . '/../../mainfile.php';
 require_once __DIR__ . '/../../classes/Extension/ExtensionProcessor.php';

@@ -1,5 +1,7 @@
 <?php
 
+use Services\DatabaseService;
+
 require_once __DIR__ . '/BaseView.php';
 
 class OlympicTotalsView extends BaseView {
@@ -29,7 +31,8 @@ class OlympicTotalsView extends BaseView {
                 <th>pts</th>
             </tr>";
 
-        $resultplayoff4 = $this->db->sql_query("SELECT * FROM ibl_olympics_stats WHERE name='" . $this->player->name . "' ORDER BY year ASC");
+        $escapedName = DatabaseService::escapeString($this->db, $this->player->name);
+        $resultplayoff4 = $this->db->sql_query("SELECT * FROM ibl_olympics_stats WHERE name='" . $escapedName . "' ORDER BY year ASC");
         while ($rowplayoff4 = $this->db->sql_fetchrow($resultplayoff4)) {
             $hist_year = stripslashes(check_html($rowplayoff4['year'], "nohtml"));
             $hist_team = stripslashes(check_html($rowplayoff4['team'], "nohtml"));

@@ -2,6 +2,8 @@
 
 namespace Extension;
 
+use Player\Player;
+
 /**
  * Extension Processor Class
  * 
@@ -272,7 +274,7 @@ class ExtensionProcessor
         $playerID = $extensionData['playerID'] ?? null;
         if ($playerID) {
             try {
-                return \Player::withPlayerID($this->db, (int)$playerID);
+                return Player::withPlayerID($this->db, (int)$playerID);
             } catch (\Exception $e) {
                 return null;
             }

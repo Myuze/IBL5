@@ -67,9 +67,14 @@ function userinfo($username, $bypass = 0, $hid = 0, $url = 0)
 				<center>Welcome to the $season->endingYear IBL Draft!
 			</th>
 		</tr>
-	</table>
+	</table>";
 
-    <table class=\"sortable\">
+    echo "<form name='draft_form' action='/ibl5/modules/College_Scouting/draft_selection.php' method='POST'>";
+    echo "<input type='hidden' name='teamname' value='$teamlogo'>";
+    echo "<input type='hidden' name='draft_round' value='$draft_round'>";
+    echo "<input type='hidden' name='draft_pick' value='$draft_pick'>";
+
+    echo "<table class=\"sortable\">
     	<tr>
 			<th>Draft</th>
 			<th>Name</th>
@@ -100,11 +105,6 @@ function userinfo($username, $bypass = 0, $hid = 0, $url = 0)
 			<th>Skl</th>
 			<th>Int</th>
 		</tr>";
-
-    echo "<form name='draft_form' action='/ibl5/modules/College_Scouting/draft_selection.php' method='POST'>";
-    echo "<input type='hidden' name='teamname' value='$teamlogo'>";
-    echo "<input type='hidden' name='draft_round' value='$draft_round'>";
-    echo "<input type='hidden' name='draft_pick' value='$draft_pick'>";
 
     $sql3 = "SELECT * FROM ibl_draft_class ORDER BY drafted, name";
     $result3 = $db->sql_query($sql3);
@@ -194,10 +194,10 @@ function userinfo($username, $bypass = 0, $hid = 0, $url = 0)
     echo "</table>";
 
     if ($teamlogo == $pickOwner && $player_drafted == 0) {
-        echo "</table><center><input type='submit' style=\"height:100px; width:150px\" value='Draft' onclick=\"this.disabled=true;this.value='Submitting...'; this.form.submit();\"></center></form>";
-    } else {
-        echo "</table></form>";
+        echo "<center><input type='submit' style=\"height:100px; width:150px\" value='Draft' onclick=\"this.disabled=true;this.value='Submitting...'; this.form.submit();\"></center>";
     }
+    
+    echo "</form>";
 
     CloseTable();
     Nuke\Footer::footer();

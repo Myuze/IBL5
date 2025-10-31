@@ -1,5 +1,7 @@
 <?php
 
+use Services\DatabaseService;
+
 require_once __DIR__ . '/BaseView.php';
 
 class OneOnOneView extends BaseView {
@@ -11,9 +13,9 @@ class OneOnOneView extends BaseView {
             <tr>
                 <td>";
 
-        $player2 = str_replace("%20", " ", $this->player->name);
+        $escapedPlayerName = DatabaseService::escapeString($this->db, str_replace("%20", " ", $this->player->name));
 
-        $query = "SELECT * FROM ibl_one_on_one WHERE winner = '$player2' ORDER BY gameid ASC";
+        $query = "SELECT * FROM ibl_one_on_one WHERE winner = '$escapedPlayerName' ORDER BY gameid ASC";
         $result = $this->db->sql_query($query);
         $num = $this->db->sql_numrows($result);
 
@@ -22,8 +24,8 @@ class OneOnOneView extends BaseView {
         $i = 0;
         while ($i < $num) {
             $gameid = $this->db->sql_result($result, $i, "gameid");
-            $winner = $this->db->sql_result($result, $i, "winner");
-            $loser = $this->db->sql_result($result, $i, "loser");
+            $winner = DatabaseService::safeHtmlOutput($this->db->sql_result($result, $i, "winner"));
+            $loser = DatabaseService::safeHtmlOutput($this->db->sql_result($result, $i, "loser"));
             $winscore = $this->db->sql_result($result, $i, "winscore");
             $lossscore = $this->db->sql_result($result, $i, "lossscore");
 
@@ -33,15 +35,15 @@ class OneOnOneView extends BaseView {
             $i++;
         }
 
-        $query = "SELECT * FROM ibl_one_on_one WHERE loser = '$player2' ORDER BY gameid ASC";
+        $query = "SELECT * FROM ibl_one_on_one WHERE loser = '$escapedPlayerName' ORDER BY gameid ASC";
         $result = $this->db->sql_query($query);
         $num = $this->db->sql_numrows($result);
         $i = 0;
 
         while ($i < $num) {
             $gameid = $this->db->sql_result($result, $i, "gameid");
-            $winner = $this->db->sql_result($result, $i, "winner");
-            $loser = $this->db->sql_result($result, $i, "loser");
+            $winner = DatabaseService::safeHtmlOutput($this->db->sql_result($result, $i, "winner"));
+            $loser = DatabaseService::safeHtmlOutput($this->db->sql_result($result, $i, "loser"));
             $winscore = $this->db->sql_result($result, $i, "winscore");
             $lossscore = $this->db->sql_result($result, $i, "lossscore");
 

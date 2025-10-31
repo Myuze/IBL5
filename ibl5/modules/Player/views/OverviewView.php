@@ -1,5 +1,8 @@
 <?php
 
+use Player\Player;
+use Services\DatabaseService;
+
 require_once __DIR__ . '/BaseView.php';
 
 class OverviewView extends BaseView {
@@ -13,16 +16,18 @@ class OverviewView extends BaseView {
     }
 
     public function render() {
-        $allstarquery = $this->db->sql_query("SELECT * FROM ibl_awards WHERE name='" . $this->player->name . "' AND Award LIKE '%Conference All-Star'");
+        $escapedName = DatabaseService::escapeString($this->db, $this->player->name);
+        
+        $allstarquery = $this->db->sql_query("SELECT * FROM ibl_awards WHERE name='" . $escapedName . "' AND Award LIKE '%Conference All-Star'");
         $asg = $this->db->sql_numrows($allstarquery);
 
-        $allstarquery2 = $this->db->sql_query("SELECT * FROM ibl_awards WHERE name='" . $this->player->name . "' AND Award LIKE 'Three-Point Contest%'");
+        $allstarquery2 = $this->db->sql_query("SELECT * FROM ibl_awards WHERE name='" . $escapedName . "' AND Award LIKE 'Three-Point Contest%'");
         $threepointcontests = $this->db->sql_numrows($allstarquery2);
 
-        $allstarquery3 = $this->db->sql_query("SELECT * FROM ibl_awards WHERE name='" . $this->player->name . "' AND Award LIKE 'Slam Dunk Competition%'");
+        $allstarquery3 = $this->db->sql_query("SELECT * FROM ibl_awards WHERE name='" . $escapedName . "' AND Award LIKE 'Slam Dunk Competition%'");
         $dunkcontests = $this->db->sql_numrows($allstarquery3);
         
-        $allstarquery4 = $this->db->sql_query("SELECT * FROM ibl_awards WHERE name='" . $this->player->name . "' AND Award LIKE 'Rookie-Sophomore Challenge'");
+        $allstarquery4 = $this->db->sql_query("SELECT * FROM ibl_awards WHERE name='" . $escapedName . "' AND Award LIKE 'Rookie-Sophomore Challenge'");
         $rooksoph = $this->db->sql_numrows($allstarquery4);
 
         echo "<table align=left cellspacing=1 cellpadding=0 border=1>

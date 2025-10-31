@@ -57,6 +57,8 @@ if (!defined("SQL_LAYER")) {
                     }
                 }
 
+                // Set character set to UTF-8 to support accent marks and special characters
+                mysql_set_charset('utf8mb4', $this->db_connect_id);
                 return $this->db_connect_id;
             } else {
                 return false;

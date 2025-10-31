@@ -1,5 +1,7 @@
 <?php
 
+use Player\Player;
+
 /************************************************************************/
 /*                     IBL Free Agency Module                           */
 /*               (c) July 22, 2005 by Spencer Cooley                    */

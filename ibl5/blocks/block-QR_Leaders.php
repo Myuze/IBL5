@@ -16,6 +16,8 @@ if (!defined('BLOCK_FILE')) {
     die();
 }
 
+use Services\DatabaseService;
+
 global $db;
 
 $max_chunk_query = "SELECT MAX(chunk) as maxchunk FROM ibl_plr_chunk WHERE active = 1";
@@ -80,7 +82,7 @@ function all_chunk($pos, $row)
 
     $query = "SELECT * FROM ibl_plr_chunk WHERE chunk = $row[maxchunk] AND pos = '$pos' ORDER BY qa DESC";
     $result = $db->sql_query($query);
-    $name = $db->sql_result($result, 0, "name");
+    $name = DatabaseService::safeHtmlOutput($db->sql_result($result, 0, "name")); // Safely escape for HTML
     $pid = $db->sql_result($result, 0, "pid");
     $tid = $db->sql_result($result, 0, "tid");
     $teamname = $db->sql_result($result, 0, "teamname");

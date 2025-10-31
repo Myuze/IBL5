@@ -57,13 +57,69 @@ ibl5/
 - Mock functionality should not be used unless absolutely necessary
 - Instantiation of classes should be done via the class autoloader
 - Do not write tests that only test mocks or instantiation
+- **Schema Reference**: Use `ibl5/schema.sql` to understand table structures when creating test data
 
-### Database Considerations
-- Current queries use MySQL-specific syntax
-- When writing new code, avoid MySQL-only features where possible
-- Consider PostgreSQL compatibility for future migration
-- Think about how queries could be converted to ORM patterns (Eloquent)
-- Document any database schema assumptions or dependencies
+### Database Schema & Considerations
+
+#### Schema Reference
+- **Schema Location**: `ibl5/schema.sql` (MariaDB 10.6.20 export)
+- The complete database schema is available in the repository for reference
+- Use the schema to understand table structures, relationships, and constraints
+
+#### Database Architecture
+- **Current Engine**: MySQL 5.5.5-10.6.20-MariaDB-cll-lve
+- **Mixed Storage Engines**: MyISAM (legacy tables) and InnoDB (newer tables)
+- **Character Sets**: Mixed latin1 (legacy) and utf8mb4 (modern Laravel tables)
+
+#### Key Table Categories
+1. **IBL Core Tables** (prefix: `ibl_`)
+   - Player data: `ibl_plr`, `ibl_plr_chunk`, `ibl_hist`
+   - Statistics: `ibl_*_stats`, `ibl_*_career_avgs`, `ibl_*_career_totals`
+   - Game data: `ibl_box_scores`, `ibl_box_scores_teams`, `ibl_schedule`
+   - Team management: `ibl_team_info`, `ibl_team_history`, `ibl_standings`
+   - League operations: `ibl_draft`, `ibl_fa_offers`, `ibl_trade_*`
+   - Awards/voting: `ibl_awards`, `ibl_votes_ASG`, `ibl_votes_EOY`
+
+2. **PHP-Nuke Legacy Tables** (prefix: `nuke_`)
+   - Forum system: `nuke_bb*` (phpBB integration)
+   - User management: `nuke_users`, `nuke_authors`
+   - CMS: `nuke_stories`, `nuke_modules`, `nuke_blocks`
+
+3. **Laravel Migration Tables** (no prefix)
+   - Modern Laravel tables: `cache`, `jobs`, `migrations`, `sessions`, `users`
+   - Indicates gradual migration to Laravel framework
+
+#### Migration Considerations
+- **Storage Engine Migration**: Convert MyISAM tables to InnoDB for:
+  - Better transaction support
+  - Foreign key constraints
+  - Improved concurrency and crash recovery
+  - Required for modern ORM functionality
+
+- **Character Set Standardization**: 
+  - Legacy tables use `latin1_swedish_ci`
+  - Modern tables use `utf8mb4_unicode_ci`
+  - Consider charset migration for international character support
+
+- **PostgreSQL Compatibility**:
+  - Avoid MySQL-specific features (e.g., `MEDIUMINT`, `TINYINT`)
+  - Use standard SQL types where possible
+  - Be mindful of AUTO_INCREMENT vs SERIAL
+  - Watch for DATE/DATETIME format differences
+
+- **ORM Preparation**:
+  - Many tables lack proper PRIMARY KEYs (e.g., `ibl_playoff_stats`)
+  - Missing foreign key relationships despite logical connections
+  - Consider adding indexes for common query patterns
+  - Prepare for Eloquent model relationships
+
+#### Schema Best Practices
+- **Reference First**: Check `ibl5/schema.sql` before writing queries
+- **Index Usage**: Verify existing indexes before adding new ones
+- **Naming Conventions**: Follow existing patterns (`ibl_` prefix for league tables)
+- **Data Integrity**: Be aware that MyISAM tables lack foreign key constraints
+- **Future-Proof Queries**: Write SQL that can be easily converted to Eloquent
+- **Testing Data**: Production schema provides real-world structure for test data
 
 ## Best Practices
 
@@ -115,9 +171,38 @@ ibl5/
   - Consider architectural implications of all changes
 - The agent will **not** merge PRs automatically; human review is required
 
+## Working with the Database Schema
+
+### Schema File Usage
+- **Location**: `ibl5/schema.sql`
+- **Purpose**: Complete reference for all database tables, columns, and constraints
+- **Generated**: October 29, 2025 via Sequel Ace
+
+### When to Reference the Schema
+- Before creating database queries or classes that interact with tables
+- When adding new database-related tests
+- When planning refactoring that touches data layer
+- When writing migration scripts or database documentation
+
+### Understanding Table Relationships
+The schema reveals:
+- **Player Identity**: `ibl_plr.pid` is the primary player identifier
+- **Team Identity**: `ibl_team_info.teamid` is the primary team identifier
+- **Player-Team Link**: `ibl_plr.tid` and `ibl_plr.teamname` connect players to teams
+- **Historical Tracking**: `ibl_hist` maintains year-by-year player statistics
+- **Salary Cap**: Contract years stored as `cy1`-`cy6` in `ibl_plr` and `ibl_trade_cash`
+- **Depth Charts**: Multiple depth fields in `ibl_plr` (`PGDepth`, `SGDepth`, etc.)
+
+### Database Evolution Strategy
+1. **Phase 1 (Current)**: PHP-Nuke with direct SQL queries
+2. **Phase 2 (In Progress)**: Laravel coexistence (evidence: modern tables exist)
+3. **Phase 3 (Target)**: Full Laravel with Eloquent ORM
+4. **Phase 4 (Future)**: PostgreSQL compatibility layer
+
 ## Additional Resources
 - [Copilot Coding Agent Best Practices](https://gh.io/copilot-coding-agent-tips)
 - [Conventional Commits](https://www.conventionalcommits.org/)
+- Database Schema Reference: `ibl5/schema.sql`
 
 ---
 

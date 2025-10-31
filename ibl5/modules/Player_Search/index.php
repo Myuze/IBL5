@@ -16,6 +16,8 @@ if (!defined('MODULE_FILE')) {
     die("You can't access this file directly...");
 }
 
+use Services\DatabaseService;
+
 $module_name = basename(dirname(__FILE__));
 get_lang($module_name);
 
@@ -361,13 +363,13 @@ if ($form_submitted_check == 1) {
 
     while ($i < $num) {
         $retired = $db->sql_result($result, $i, "retired");
-        $name = $db->sql_result($result, $i, "name");
+        $name = DatabaseService::safeHtmlOutput($db->sql_result($result, $i, "name")); // Safely escape for HTML
         $pos = $db->sql_result($result, $i, "pos");
         $pid = $db->sql_result($result, $i, "pid");
         $tid = $db->sql_result($result, $i, "tid");
         $age = $db->sql_result($result, $i, "age");
-        $teamname = $db->sql_result($result, $i, "teamname");
-        $college = $db->sql_result($result, $i, "college");
+        $teamname = DatabaseService::safeHtmlOutput($db->sql_result($result, $i, "teamname")); // Safely escape for HTML
+        $college = DatabaseService::safeHtmlOutput($db->sql_result($result, $i, "college")); // Safely escape for HTML
         $exp = $db->sql_result($result, $i, "exp");
         $bird = $db->sql_result($result, $i, "bird");
 

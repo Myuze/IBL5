@@ -55,6 +55,8 @@ if (!defined("SQL_LAYER")) {
                         $this->db_connect_id = $dbselect;
                     }
                 }
+                // Set character set to UTF-8 to support accent marks and special characters
+                @mysqli_set_charset($this->db_connect_id, 'utf8mb4');
                 return $this->db_connect_id;
             } else {
                 return false;

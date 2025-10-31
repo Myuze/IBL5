@@ -1,5 +1,7 @@
 <?php
 
+use Services\DatabaseService;
+
 require $_SERVER['DOCUMENT_ROOT'] . '/ibl5/mainfile.php';
 
 $queryfirstyear = "SELECT draftyear FROM ibl_plr ORDER BY draftyear ASC";
@@ -41,12 +43,12 @@ if ($num == 0) {
     $i = 0;
 
     while ($i < $num) {
-        $draftedby = $db->sql_result($result, $i, "draftedby");
-        $name = $db->sql_result($result, $i, "name");
+        $draftedby = DatabaseService::safeHtmlOutput($db->sql_result($result, $i, "draftedby")); // Safely escape for HTML
+        $name = DatabaseService::safeHtmlOutput($db->sql_result($result, $i, "name")); // Safely escape for HTML
         $pid = $db->sql_result($result, $i, "pid");
         $round = $db->sql_result($result, $i, "draftround");
         $draftpickno = $db->sql_result($result, $i, "draftpickno");
-        $college = $db->sql_result($result, $i, "college");
+        $college = DatabaseService::safeHtmlOutput($db->sql_result($result, $i, "college")); // Safely escape for HTML
 
         if ($i % 2) {
             echo "<tr bgcolor=#ffffff>";

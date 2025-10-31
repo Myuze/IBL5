@@ -1,6 +1,9 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ibl5/mainfile.php';
+
+use Player\Player;
+
 $sharedFunctions = new Shared($db);
 
 $val = $_GET['day'];
